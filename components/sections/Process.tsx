@@ -1,0 +1,112 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Search, Hammer, Rocket, RefreshCw } from "lucide-react";
+
+const steps = [
+  {
+    number: "01",
+    title: "Utforska",
+    description:
+      "Vi fördjupar oss i er vision, era mål och förutsättningar för att definiera högst-ROI-möjligheter.",
+    duration: "1 vecka",
+    Icon: Search,
+  },
+  {
+    number: "02",
+    title: "Bygg",
+    description:
+      "Vi designar AI-arkitekturen med fokus på skalbarhet, integritet och integration med befintlig stack.",
+    duration: "2–3 veckor",
+    Icon: Hammer,
+  },
+  {
+    number: "03",
+    title: "Inför",
+    description:
+      "Agil implementation i sprintar. Varje leverans ger mätbara resultat som kan valideras direkt.",
+    duration: "1–2 veckor",
+    Icon: Rocket,
+  },
+  {
+    number: "04",
+    title: "Förfina",
+    description:
+      "Kontinuerlig övervakning och förbättring. Systemet blir smartare med varje datapunkt.",
+    duration: "Löpande",
+    Icon: RefreshCw,
+  },
+];
+
+export default function Process() {
+  return (
+    <section className="py-20 md:py-24 bg-white" id="process">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-gray-900 mb-4">
+            Så här <span className="font-serif italic text-emerald-700">funkar</span> det
+          </h2>
+          <p className="text-gray-500 font-light text-lg max-w-xl mx-auto">
+            Från första samtal till mätbara resultat
+          </p>
+        </motion.div>
+
+        {/* Timeline */}
+        <div className="relative">
+          {/* Connecting line (desktop) - animated */}
+          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-emerald-100 -translate-y-1/2">
+            <motion.div
+              className="h-full bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300"
+              initial={{ width: "0%" }}
+              whileInView={{ width: "100%" }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 1.5, ease: "easeInOut", delay: 0.3 }}
+            />
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((step, i) => {
+              const Icon = step.Icon;
+              return (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="group relative bg-white rounded-2xl border border-gray-100 p-7 hover:shadow-lg hover:shadow-emerald-50 hover:border-emerald-100 transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  {/* Step number */}
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-xs font-semibold tracking-[0.1em] text-emerald-500">
+                      {step.number}
+                    </span>
+                    <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                      <Icon className="w-4 h-4 text-emerald-600" />
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-light tracking-tight text-gray-900 mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 font-light leading-relaxed mb-4">
+                    {step.description}
+                  </p>
+                  <span className="text-xs text-emerald-600 font-medium">
+                    {step.duration}
+                  </span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

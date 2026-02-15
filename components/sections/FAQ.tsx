@@ -1,0 +1,108 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus } from "lucide-react";
+
+const faqs = [
+  {
+    question: "Hur lång tid tar en implementation?",
+    answer:
+      "4–8 veckor från första mötet till första resultat. Vi arbetar i sprintar så ni ser framsteg varje vecka, inte efter sex månader.",
+  },
+  {
+    question: "Behöver vi teknisk kompetens internt?",
+    answer:
+      "Nej. Vi bygger, implementerar och supporterar. Ni fokuserar på er affär — vi tar hand om tekniken.",
+  },
+  {
+    question: "Vilka system integrerar ni med?",
+    answer:
+      "HubSpot, Salesforce, Fortnox, Google Workspace, Slack, Shopify, Stripe och de flesta andra CRM/ERP-system. Saknas något? Vi bygger integrationen.",
+  },
+  {
+    question: "Vad kostar det?",
+    answer:
+      "Beror på lösning och omfattning. Små automatiseringar från 20 000 SEK, större custom-lösningar från 100 000 SEK. Boka ett samtal så tar vi fram en konkret offert.",
+  },
+  {
+    question: "Är det verkligen GDPR-compliant?",
+    answer:
+      "Ja. Svenska dataservrar, full transparens, tydliga ändamål och minimerad lagring. Ni äger er data — alltid.",
+  },
+];
+
+export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="py-20 md:py-24 bg-gray-50/50" id="faq">
+      <div className="max-w-3xl mx-auto px-6 md:px-10 lg:px-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-gray-900 mb-4">
+            Vanliga{" "}
+            <span className="font-serif italic text-emerald-700">frågor</span>
+          </h2>
+        </motion.div>
+
+        <div className="space-y-3">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className={`w-full flex items-center justify-between gap-4 px-6 py-5 rounded-2xl bg-white border text-left transition-all duration-300 ${
+                    isOpen
+                      ? "border-emerald-200 shadow-sm"
+                      : "border-gray-100 hover:border-gray-200"
+                  }`}
+                  aria-expanded={isOpen}
+                >
+                  <span className="text-base font-light text-gray-900 tracking-tight">
+                    {faq.question}
+                  </span>
+                  <span className="shrink-0 w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center">
+                    {isOpen ? (
+                      <Minus className="w-3.5 h-3.5 text-emerald-600" />
+                    ) : (
+                      <Plus className="w-3.5 h-3.5 text-gray-400" />
+                    )}
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-6 py-4 text-sm text-gray-500 font-light leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
