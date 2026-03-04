@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(identify /Users/ludde/hemsida-aluf/public/logos/swedish-cold.png)",
+      "Bash(sips -g all /Users/ludde/hemsida-aluf/public/logos/swedish-cold.png)",
+      "Read(//private/var/folders/**)",
+      "Read(//private/tmp/**)",
+      "Bash(npx next build)",
+      "Bash(tr '}' '\\\\n')",
+      "Bash(/Users/ludde/hemsida-aluf/public/robots.txt:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(convert public/logos/swedish-cold.png -quality 80 public/logos/swedish-cold.webp)",
+      "Bash(convert public/logos/swedish-cold.png -quality 70 public/logos/swedish-cold.avif)",
+      "Bash(node convert-images.js)",
+      "Bash(svgo public/logos/*.svg --multipass)",
+      "Bash(git add -A)"
+    ]
+  }
+}

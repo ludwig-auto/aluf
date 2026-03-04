@@ -384,12 +384,13 @@ export default function FeaturedCase() {
               Swedish Cold Case Study
             </h2>
             <Image
-              src="/logos/swedish-cold.png"
+              src="/logos/swedish-cold.webp"
               alt="Swedish Cold"
               width={100}
               height={48}
               className="h-12 sm:h-16 w-auto brightness-0 invert"
               priority={false}
+              loading="lazy"
             />
             <p className="text-[11px] text-white/30 font-light tracking-wide">
               B2B-sälj · AI-outreach

@@ -1,102 +1,154 @@
 "use client";
 
-import { memo } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { Zap, Target, Users, Shield } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { CALENDLY_URL } from "@/lib/constants";
 
 const points = [
   {
     Icon: Zap,
-    title: "Snabba som fan",
-    description: "4–8 veckor till första resultat. Inte 6 månader.",
-    featured: false,
+    title: "Resultat på 4–6 veckor, inte ett halvår",
+    description:
+      "Swedish Cold såg ROI dag 14. Jag levererar mätbara resultat snabbt, inte efter ett halvår av slides och piloter.",
   },
   {
     Icon: Target,
-    title: "Konkreta resultat",
-    description: "Vi mäter i kronor, inte i slides. ROI från dag ett.",
-    featured: false,
+    title: "Jag mäter i kronor och tid",
+    description:
+      "ROI från dag ett. Inte i features, inte i slides. I faktisk avkastning som syns i kassan.",
   },
   {
     Icon: Users,
-    title: "Små team, stora system",
-    description: "Ni jobbar med oss — inte med outsourcade juniorresurser.",
-    featured: false,
+    title: "Du jobbar alltid direkt med Ludwig",
+    description:
+      "Inget mellanlager. Du har mitt nummer och jag svarar. Du vet alltid exakt vem som gör jobbet.",
   },
   {
     Icon: Shield,
-    title: "GDPR-compliant",
-    description: "Svenska dataservrar. Full transparens. Noll kompromisser.",
-    featured: true,
+    title: "GDPR utan krångel",
+    description:
+      "EU-baserade dataservrar. Full transparens i hur din data hanteras. Inga kompromisser.",
   },
 ];
 
-const WhyUs = memo(function WhyUs() {
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
+function WhyUsCard({ Icon, title, description, reduced }: { Icon: typeof Zap; title: string; description: string; reduced: boolean }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <section className="py-20 md:py-24 bg-black">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
+    <motion.div
+      className="group"
+      variants={reduced ? undefined : itemVariants}
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={(e) => {
+          if (reduced) return;
+          const rect = cardRef.current?.getBoundingClientRect();
+          if (rect) setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        }}
+        onMouseEnter={(e) => {
+          if (reduced) return;
+          const rect = cardRef.current?.getBoundingClientRect();
+          if (rect) setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+          setHovered(true);
+        }}
+        onMouseLeave={() => setHovered(false)}
+        className="relative rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 md:p-8 overflow-hidden transition-all duration-300 hover:border-violet-500/20"
+      >
+        {/* Cursor-follow glow */}
+        {!reduced && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            style={{
+              opacity: hovered ? 1 : 0,
+              background: `radial-gradient(250px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.06), transparent 70%)`,
+            }}
+          />
+        )}
+        <div className="relative z-10">
+          <div className="w-9 h-9 rounded-xl bg-violet-500/[0.06] border border-violet-500/20 flex items-center justify-center mb-3 group-hover:bg-violet-500/10 group-hover:border-violet-500/40 transition-colors duration-300">
+            <Icon className="w-5 h-5 text-violet-400/70 group-hover:text-violet-400 transition-colors duration-300" />
+          </div>
+          <h3 className="text-base md:text-lg font-light tracking-tight text-white/90 mb-2 group-hover:text-white transition-colors duration-300">
+            {title}
+          </h3>
+          <p className="text-white/45 font-light leading-relaxed text-sm md:text-base group-hover:text-white/60 transition-colors duration-300">
+            {description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function WhyUs() {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <section id="why-us" className="py-16 md:py-24 bg-black">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          className="mb-10 md:mb-14 max-w-3xl"
+          initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-tight text-white mb-4">
-            Varför <span className="font-serif italic text-gradient-emerald text-neon-glow">vi</span>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight text-white">
+            Varför bolag väljer mig framför{" "}
+            <span
+              className="text-gradient-purple"
+              style={{ filter: "drop-shadow(0 0 10px rgba(139,92,246,0.5)) drop-shadow(0 0 24px rgba(139,92,246,0.2))" }}
+            >
+              byrån med 40 slides
+            </span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {points.map(({ Icon, title, description, featured }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`group relative rounded-2xl transition-all duration-300 ${featured
-                ? "overflow-hidden hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1"
-                : "bg-white/5 border border-white/10 hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/40 hover:-translate-y-0.5"
-                }`}
-            >
-              {featured && (
-                <div className="absolute inset-0 bg-emerald-500/5 border border-emerald-500/40" />
-              )}
-
-              <div className={`relative flex gap-5 p-8 ${featured ? "text-white" : ""}`}>
-                <div
-                  className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${featured
-                    ? "bg-emerald-500/10 border border-emerald-500/20"
-                    : "bg-white/5 border border-white/10 group-hover:bg-emerald-500/10"
-                    }`}
-                >
-                  <Icon
-                    className={`w-5 h-5 ${featured ? "text-emerald-400" : "text-emerald-500/60"
-                      }`}
-                  />
-                </div>
-                <div>
-                  <h3
-                    className={`text-lg font-light tracking-tight mb-1 ${featured ? "text-white" : "text-white/90"
-                      }`}
-                  >
-                    {title}
-                  </h3>
-                  <p
-                    className={`text-sm font-light leading-relaxed ${featured ? "text-white/80" : "text-white/50"
-                      }`}
-                  >
-                    {description}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+        <motion.div
+          className="grid md:grid-cols-2 gap-x-12 gap-y-8 md:gap-y-10"
+          variants={shouldReduceMotion ? undefined : containerVariants}
+          initial={shouldReduceMotion ? undefined : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {points.map(({ Icon, title, description }) => (
+            <WhyUsCard key={title} Icon={Icon} title={title} description={description} reduced={!!shouldReduceMotion} />
           ))}
-        </div>
+        </motion.div>
+
+        <motion.div
+          className="mt-10"
+          initial={shouldReduceMotion ? undefined : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+        >
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-all duration-200 group/link"
+          >
+            Boka gratis samtal
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+          </a>
+        </motion.div>
       </div>
     </section>
   );
-});
-
-export default WhyUs;
+}

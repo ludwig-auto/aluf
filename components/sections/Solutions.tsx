@@ -1,260 +1,351 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Send, Mail, BarChart3, Wrench } from "lucide-react";
-import React from "react";
+import { useRef, useState } from "react";
+import { Send, Settings, Wrench, ArrowRight } from "lucide-react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
+import { CALENDLY_URL } from "@/lib/constants";
 
 const solutions = [
   {
     icon: Send,
-    category: "OUTREACH",
+    category: "EXTERN",
     title: "AI B2B Outreach",
     description:
-      "Automatiserad prospektering som identifierar era idealkunder och bokar möten medan ni sover.",
-    outcome: "Spara 20+ timmar/vecka i manuell reach-out.",
-    example: "Swedish Cold: 120k SEK på 2 veckor",
+      "Jag bygger AI-agenter som automatiserar prospektering och personlig e-postuppföljning. Swedish Cold gick från 0 till 15 möten i månaden, på 14 dagar.",
+    outcome: "Spara 15–20 timmar i månaden. Fler möten, samma team.",
     features: [
-      "AI-driven prospecting",
-      "Personliga meddelanden",
-      "Automatisk uppföljning",
+      "Säljautomatisering & LinkedIn-outreach",
+      "Personalisering som faktiskt känns personlig",
+      "Automatisk säljuppföljning",
     ],
   },
   {
-    icon: Mail,
-    category: "PERSONALIZATION",
-    title: "AI-Mejlskalning",
+    icon: Settings,
+    category: "INTERN",
+    title: "Admin-automatisering",
     description:
-      "Koppla AI till HubSpot eller Salesforce. Varje mejl blir personligt utan en sekunds extra arbete.",
-    outcome: "3x högre svarsfrekvens på kalla mejl.",
-    example: "Leia Health: 100% personliga vårdmejl",
+      "Rapporter som ingen orkar skriva, system som inte pratar med varandra och processer i Excel från 2019. Jag bygger bort det.",
+    outcome: "Mindre friktionsarbete. Mer tid till det som faktiskt driver bolaget.",
     features: [
-      "CRM-direktintegration",
-      "Kontext-medveten AI",
-      "Noll manuellt arbete",
-    ],
-  },
-  {
-    icon: BarChart3,
-    category: "EFFICIENCY",
-    title: "CRM-Dashboarding",
-    description:
-      "Få full kontroll över pipeline och teamets prestation utan att jaga rapporter.",
-    outcome: "100% datadriven överblick i realtid.",
-    example: "Extend Marketing: Real-time status",
-    features: [
-      "Automatiska månadsrapporter",
-      "Proaktiva pipeline-varningar",
-      "Sömlös team-sync",
+      "Automatiska rapporter och notiser",
+      "Processautomatisering skräddarsydd för er",
+      "Integrationer mot befintliga system",
     ],
   },
 ];
 
 const customSolution = {
   icon: Wrench,
-  category: "CUSTOM SOLUTIONS",
-  title: "Skräddarsydda plattformar",
-  description:
-    "Dashboards, interna verktyg, custom integrationer. Vi bygger det era standardverktyg inte klarar.",
-  example: "Från koncept till produktion",
-  features: ["Full tech-stack", "Skalbar arkitektur", "Långsiktig support"],
-  pricing: "Från 100 000 SEK",
+  category: "CUSTOM",
+  title: "Plattformar och appar byggda för hur ni faktiskt jobbar",
+  description: "Jag bygger det ni faktiskt skulle använda, inte det ni kringgår.",
+  cta: "Hiems AB bytte ut sitt CRM mot ett skräddarsytt system. De sparade tid och slutade kringgå sina egna verktyg.",
+  features: [
+    "Skräddarsytt efter er process, inte tvärtom",
+    "CRM-integration & API-kopplingar",
+    "Långsiktig support",
+  ],
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" as const },
-  }),
+const noiseStyle = {
+  backgroundImage:
+    "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
 };
 
-// Simplified card component - removed expensive 3D transforms
-function TiltCard({ children, className, colSpan = "" }: { children: React.ReactNode; className?: string; colSpan?: string }) {
+// ─── SolutionCard ─────────────────────────────────────────────────────────────
+function SolutionCard({
+  sol,
+  reduced,
+}: {
+  sol: (typeof solutions)[0];
+  reduced: boolean;
+}) {
+  const Icon = sol.icon;
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Cursor-follow spotlight
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+  // Shimmer one-shot per hover
+  const [shimmer, setShimmer] = useState(false);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }
+
+  function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (rect) setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    setHovered(true);
+    setShimmer(false);
+    // tiny delay so CSS class is removed and re-added to restart animation
+    requestAnimationFrame(() => setShimmer(true));
+  }
+
+  function handleMouseLeave() {
+    setHovered(false);
+    setShimmer(false);
+  }
+
   return (
-    <div className={`relative ${colSpan} ${className}`}>
-      {children}
+    // Gradient-border wrapper: 1px padding + gradient background simulates border
+    <div
+      className="rounded-2xl p-px transition-all duration-300"
+      style={{
+        background: hovered
+          ? "linear-gradient(135deg, rgba(139,92,246,0.5), rgba(139,92,246,0.15), rgba(139,92,246,0.4))"
+          : "rgba(255,255,255,0.06)",
+      }}
+    >
+      <div
+        ref={cardRef}
+        className="group relative rounded-[15px] bg-[#040407] p-6 md:p-8 overflow-hidden cursor-default"
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Cursor-follow radial spotlight */}
+        {!reduced && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            style={{
+              opacity: hovered ? 1 : 0,
+              background: `radial-gradient(300px circle at ${cursor.x}px ${cursor.y}px, rgba(255,255,255,0.03), transparent 70%)`,
+            }}
+          />
+        )}
+
+        {/* Top-right corner accent */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-violet-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        <div className="relative z-10">
+          {/* Icon area with spotlight */}
+          <div className="flex items-center gap-3 mb-8">
+            <div className="relative">
+              {/* Icon spotlight */}
+              {!reduced && (
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-lg pointer-events-none transition-all duration-[400ms] ease-out"
+                  style={{
+                    background: hovered
+                      ? "radial-gradient(80px circle at center, rgba(139,92,246,0.15), transparent)"
+                      : "radial-gradient(0px circle at center, rgba(139,92,246,0), transparent)",
+                  }}
+                />
+              )}
+              <div className="w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                <Icon
+                  className="w-4 h-4 transition-all duration-300 ease-out"
+                  style={{
+                    color: hovered ? "rgb(139,92,246)" : "rgb(167,139,250)",
+                    transform: hovered && !reduced ? "rotate(8deg)" : "rotate(0deg)",
+                  }}
+                />
+              </div>
+            </div>
+            <span className="text-[10px] font-medium tracking-[0.15em] text-violet-400/70 uppercase">
+              {sol.category}
+            </span>
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-light tracking-tight text-white mb-3">
+            {sol.title}
+          </h3>
+
+          <p className="text-sm text-white/70 font-light leading-relaxed mb-8">
+            {sol.description}
+          </p>
+
+          {/* Highlight pill with shimmer */}
+          <div
+            className={`relative flex items-center gap-2 px-3 py-2 rounded-lg bg-violet-500/[0.08] border border-violet-500/10 w-fit mb-8 overflow-hidden${shimmer && !reduced ? " sol-shimmer-run" : ""}`}
+          >
+            <div className="w-1.5 h-1.5 rounded-full bg-violet-400 shadow-[0_0_6px_rgba(139,92,246,0.8)]" />
+            <p className="text-xs text-violet-300/90 font-light relative z-10">{sol.outcome}</p>
+          </div>
+
+          {/* Feature tags with stagger on hover */}
+          <ul className="flex flex-wrap gap-2">
+            {sol.features.map((f, i) => (
+              <li
+                key={f}
+                className="px-3 py-1.5 text-[11px] text-white/60 font-light rounded-full border border-white/[0.06] bg-white/[0.02] transition-all duration-200 ease-out"
+                style={
+                  reduced
+                    ? undefined
+                    : {
+                        transitionDelay: hovered ? `${i * 0.05}s` : "0s",
+                        transform: hovered ? "translateY(0)" : "translateY(4px)",
+                        opacity: hovered ? 1 : 0.6,
+                      }
+                }
+              >
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-all duration-200 mt-4 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+          >
+            Diskutera er utmaning
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className="group-hover/link:translate-x-1 group-active/link:translate-x-2 transition-transform duration-200"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
 
+// ─── Solutions ─────────────────────────────────────────────────────────────────
 export default function Solutions() {
+  const shouldReduceMotion = useReducedMotion();
+  const reduced = !!shouldReduceMotion;
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.2 });
+
   return (
-    <section className="py-20 md:py-24 bg-black" id="solutions">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
+    <section
+      className="py-16 md:py-24 bg-[#040407] relative overflow-hidden"
+      id="solutions"
+    >
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-violet-600/[0.03] rounded-full blur-[120px] pointer-events-none" />
+
+      <div ref={sectionRef} className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16 relative">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-8 md:mb-12"
+          initial={reduced ? undefined : { opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.6, ease: "easeOut" as const }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-white mb-4">
-            Vad vi <span className="font-serif italic text-gradient-emerald text-neon-glow">bygger</span>
-          </h2>
-          <p className="text-white/60 font-light text-lg max-w-xl mx-auto">
-            Konkreta AI-system som löser verkliga affärsproblem
+          <p className="text-[11px] font-medium tracking-[0.2em] text-violet-400/80 uppercase mb-4">
+            Lösningar
           </p>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-white mb-4">
+            Tre typer av problem.{" "}
+            <span className="text-gradient-purple">
+              En person som faktiskt löser dem.
+            </span>
+          </h2>
         </motion.div>
 
-        {/* Bento Grid - asymmetric layout */}
-        <div className="grid md:grid-cols-6 gap-6 mb-6">
-          {/* First card - LARGE (spans 4 columns) */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="md:col-span-4"
-          >
-            <TiltCard
-              className="group relative bg-white/5 rounded-2xl border border-white/10 p-10 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300"
+        {/* Two main cards */}
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          {solutions.map((sol, i) => (
+            <motion.div
+              key={sol.title}
+              initial={reduced ? undefined : { opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : undefined}
+              transition={{
+                duration: 0.5,
+                ease: "easeOut" as const,
+                delay: 0.15 + i * 0.15,
+              }}
             >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform duration-300">
-              <Send className="w-6 h-6 text-white" />
-            </div>
-
-            <span className="text-[10px] font-semibold tracking-[0.15em] text-emerald-400 uppercase drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">
-              {solutions[0].category}
-            </span>
-
-            <h3 className="text-3xl font-display font-medium tracking-tight text-white mt-3 mb-4" style={{ fontFamily: "var(--font-display)" }}>
-              {solutions[0].title}
-            </h3>
-
-            <p className="text-base text-white/60 font-light leading-relaxed mb-6 max-w-xl">
-              {solutions[0].description}
-            </p>
-
-            <div className="flex items-center gap-2 mb-6">
-              <span className="text-[10px] font-bold text-emerald-400/60 uppercase tracking-wider">Outcome:</span>
-              <p className="text-sm text-emerald-400 font-medium">
-                {solutions[0].outcome}
-              </p>
-            </div>
-
-            <ul className="space-y-3">
-              {solutions[0].features.map((f) => (
-                <li
-                  key={f}
-                  className="text-sm text-white/40 flex items-center gap-3"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            </TiltCard>
-          </motion.div>
-
-          {/* Second and third cards - smaller (2 columns each, stacked) */}
-          <div className="md:col-span-2 space-y-6">
-            {solutions.slice(1).map((sol, solIndex) => {
-              const Icon = sol.icon;
-              return (
-                <motion.div
-                  key={sol.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 + solIndex * 0.1 }}
-                >
-                  <TiltCard
-                    className="group relative bg-white/5 rounded-2xl border border-white/10 p-8 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300"
-                  >
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-5 group-hover:bg-emerald-500/20 transition-colors">
-                    <Icon className="w-5 h-5 text-emerald-400" />
-                  </div>
-
-                  <span className="text-[10px] font-semibold tracking-[0.15em] text-emerald-400 uppercase">
-                    {sol.category}
-                  </span>
-
-                  <h3 className="text-xl font-light tracking-tight text-white mt-2 mb-3">
-                    {sol.title}
-                  </h3>
-
-                  <p className="text-sm text-white/60 font-light leading-relaxed mb-5">
-                    {sol.description}
-                  </p>
-
-                  <div className="flex flex-col gap-1 mb-5">
-                    <span className="text-[10px] font-bold text-emerald-400/60 uppercase tracking-wider">Outcome:</span>
-                    <p className="text-xs text-emerald-400 font-medium leading-tight">
-                      {sol.outcome}
-                    </p>
-                  </div>
-
-                  <ul className="space-y-2">
-                    {sol.features.map((f) => (
-                      <li
-                        key={f}
-                        className="text-xs text-white/30 flex items-center gap-2"
-                      >
-                        <span className="w-1 h-1 rounded-full bg-emerald-500/50" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  </TiltCard>
-                </motion.div>
-              );
-            })}
-          </div>
+              <SolutionCard sol={sol} reduced={reduced} />
+            </motion.div>
+          ))}
         </div>
 
-        {/* Custom solution - wide card */}
+        {/* Custom solution block */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          className="group relative rounded-2xl custom-block-glow"
+          initial={reduced ? undefined : { opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.5, ease: "easeOut" as const, delay: 0.45 }}
         >
-          <TiltCard
-            className="group relative rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-emerald-200/50 transition-all duration-300"
-          >
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-emerald-700" />
+          {/* Inner wrapper clips content to rounded corners without clipping the outer box-shadow glow */}
+          <div className="absolute inset-0 rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-violet-600/90 via-violet-700/90 to-violet-900/90" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(167,139,250,0.25),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(109,40,217,0.3),transparent_60%)]" />
 
-          <div className="relative p-8 md:p-12 text-white grid md:grid-cols-[1fr,auto] gap-8 items-center">
+            {/* Drifting inner gradient — CSS driven */}
+            {!reduced && (
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 custom-block-drift pointer-events-none"
+                style={{ zIndex: 0 }}
+              />
+            )}
+
+            <div className="absolute inset-0 opacity-[0.15]" style={noiseStyle} />
+          </div>
+          <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-white/20 transition-colors duration-500" />
+
+          <div className="relative z-10 p-6 md:p-10 text-white grid md:grid-cols-[1fr,auto] gap-8 items-start">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Wrench className="w-5 h-5 text-emerald-200" />
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center">
+                  <Wrench className="w-4 h-4 text-white/80" />
                 </div>
-                <span className="text-[10px] font-semibold tracking-[0.15em] text-emerald-200 uppercase">
+                <span className="text-[10px] font-medium tracking-[0.15em] text-white/60 uppercase">
                   {customSolution.category}
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-extralight tracking-tight mb-3">
+              <h3 className="text-xl md:text-2xl font-extralight tracking-tight mb-3">
                 {customSolution.title}
               </h3>
-              <p className="text-emerald-100/80 font-light leading-relaxed max-w-lg mb-4">
+              <p className="text-white/60 font-light leading-relaxed max-w-xl mb-4 text-sm">
                 {customSolution.description}
               </p>
-              <p className="text-sm text-emerald-200 font-medium italic">
-                Investering för långsiktig strategisk fördel.
+              <p className="text-sm text-white/80 font-light mb-6">
+                {customSolution.cta}
               </p>
+
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-all duration-200 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+              >
+                Diskutera ert projekt
+                <ArrowRight
+                  aria-hidden={true}
+                  className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5"
+                />
+              </a>
             </div>
 
-            <div className="flex flex-col items-start md:items-end gap-4">
+            <div className="flex flex-col items-start md:items-end gap-5">
               <div className="flex flex-wrap gap-2">
                 {customSolution.features.map((f) => (
                   <span
                     key={f}
-                    className="px-3 py-1.5 text-xs font-medium bg-white/10 rounded-full text-emerald-100"
+                    className="px-3 py-1.5 text-[11px] font-light bg-white/[0.08] backdrop-blur-sm rounded-full text-white/70 border border-white/[0.08]"
                   >
                     {f}
                   </span>
                 ))}
               </div>
-              <p className="text-sm text-emerald-200/70">
-                {customSolution.pricing}
-              </p>
             </div>
           </div>
-          </TiltCard>
         </motion.div>
       </div>
     </section>

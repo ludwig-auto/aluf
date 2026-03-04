@@ -1,16 +1,14 @@
-"use client";
-
-import { Linkedin, Mail, MapPin } from "lucide-react";
+import { LinkedinIcon, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="py-20 bg-black border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
-        <div className="grid md:grid-cols-4 gap-10 md:gap-8 mb-12">
+    <footer className="py-10 bg-black border-t border-white/5">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+        <div className="grid md:grid-cols-4 gap-8 md:gap-6 mb-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <p className="text-lg font-light tracking-tight text-white mb-3">
-              Automations<span className="text-emerald-500">Ludwig</span>
+            <p className="text-base font-light tracking-tight text-white mb-2">
+              Automations<span className="text-violet-500">Ludwig</span>
             </p>
             <p className="text-sm text-white/40 font-light leading-relaxed">
               Små system. Stora resultat. Inga demos.
@@ -19,9 +17,9 @@ export default function Footer() {
 
           {/* Sidor */}
           <div>
-            <p className="text-[10px] font-semibold tracking-[0.15em] text-white/30 uppercase mb-4">
+            <h3 className="text-[10px] font-semibold tracking-[0.15em] text-white/50 uppercase mb-4">
               Sidor
-            </p>
+            </h3>
             <ul className="space-y-2.5">
               {[
                 { label: "Lösningar", href: "#solutions" },
@@ -32,7 +30,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-white/50 font-light hover:text-emerald-400 transition-colors"
+                    className="text-sm text-white/50 font-light hover:text-violet-400 transition-all py-1 inline-block relative border-b border-transparent hover:border-violet-400/50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                   >
                     {link.label}
                   </a>
@@ -43,16 +41,16 @@ export default function Footer() {
 
           {/* Kontakt */}
           <div>
-            <p className="text-[10px] font-semibold tracking-[0.15em] text-white/30 uppercase mb-4">
+            <h3 className="text-[10px] font-semibold tracking-[0.15em] text-white/50 uppercase mb-4">
               Kontakt
-            </p>
+            </h3>
             <ul className="space-y-2.5">
               <li>
                 <a
                   href="mailto:ludwig@automationsludwig.com"
-                  className="text-sm text-white/50 font-light hover:text-emerald-400 transition-colors flex items-center gap-2"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all flex items-center gap-2 relative border-b border-transparent hover:border-violet-400/50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                 >
-                  <Mail className="w-3.5 h-3.5" />
+                  <Mail className="w-3.5 h-3.5" aria-hidden="true" />
                   ludwig@automationsludwig.com
                 </a>
               </li>
@@ -61,9 +59,9 @@ export default function Footer() {
                   href="https://www.linkedin.com/in/ludwig-a-automationsludwig/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/50 font-light hover:text-emerald-400 transition-colors flex items-center gap-2"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all flex items-center gap-2 relative border-b border-transparent hover:border-violet-400/50"
                 >
-                  <Linkedin className="w-3.5 h-3.5" />
+                  <LinkedinIcon className="w-3.5 h-3.5" />
                   LinkedIn
                 </a>
               </li>
@@ -78,24 +76,32 @@ export default function Footer() {
 
           {/* Juridiskt */}
           <div>
-            <p className="text-[10px] font-semibold tracking-[0.15em] text-white/30 uppercase mb-4">
+            <h3 className="text-[10px] font-semibold tracking-[0.15em] text-white/50 uppercase mb-4">
               Juridiskt
-            </p>
+            </h3>
             <ul className="space-y-2.5">
               <li>
                 <a
-                  href="#"
-                  className="text-sm text-white/50 font-light hover:text-emerald-400 transition-colors"
+                  href="/integritetspolicy"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50"
                 >
                   Integritetspolicy
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="text-sm text-white/50 font-light hover:text-emerald-400 transition-colors"
+                  href="/villkor"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50"
                 >
                   Villkor
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/cookie-policy"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50"
+                >
+                  Cookie-policy
                 </a>
               </li>
             </ul>
@@ -104,10 +110,12 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/20">
+          <p className="text-xs text-white/60">
             &copy; 2026 AutomationsLudwig. Alla rättigheter förbehållna.
           </p>
-          <p className="text-xs text-white/20">Byggt med precision.</p>
+          <p className="text-xs text-white/30">
+            Utvecklad i Sverige med ❤️
+          </p>
         </div>
       </div>
     </footer>

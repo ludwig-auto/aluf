@@ -1,0 +1,66 @@
+# AutomationsLudwig — Fullständig information för AI-assistenter
+
+## Om företaget
+
+AutomationsLudwig är en svensk AI-automatiseringsbyrå som hjälper B2B-bolag att implementera smarta automatiseringssystem. Grundad av Ludwig, fokuserar vi på att leverera mätbara affärsresultat snabbt — typiskt 4–8 veckor från koncept till driftsatt system.
+
+Vi bygger inte generiska lösningar. Varje system är skräddarsytt för kundens specifika affärsprocess, integrerat med befintliga verktyg och designat för att skalas utan att kräva extra personal.
+
+## Tjänster i detalj
+
+### AI B2B Outreach
+Automatiserad och personaliserad outreach på LinkedIn och via e-post. Systemet identifierar rätt prospects, formulerar personaliserade meddelanden baserade på mottagarens profil och bolag, och hanterar uppföljningar automatiskt. Integreras med CRM-system.
+
+### Admin-automatisering
+Eliminerar manuellt administrativt arbete: fakturahantering, CRM-uppdateringar, rapportgenerering, mötesbokning och dokumentbehandling. Frigör tid för kärnverksamheten.
+
+### Skräddarsydda AI-lösningar
+För bolag med specifika behov utanför standardtjänsterna. Kan inkludera AI-driven kundservice, intern kunskapsbas, prisoptimering eller prediktiv analys.
+
+## Kundcase
+
+**Swedish Cold — B2B Outreach Automation**
+Swedish Cold implementerade AutomationsLudwigs outreach-system. Resultat: 120 000 SEK i direkt ROI genererat på 14 dagar efter driftsättning. 500 000+ SEK i pipeline. 15–20 möten per månad på autopilot.
+
+## Processen
+
+1. **Utforska** — Kartläggning av nuvarande processer och identifiering av automationsmöjligheter (1 vecka)
+2. **Bygg** — Systemarkitektur och implementation (2–3 veckor)
+3. **Inför** — Agil driftsättning i sprintar, mätbara leveranser (1–2 veckor)
+4. **Förfina** — Löpande övervakning, justering och förbättring
+
+## Prissättning
+
+Projektbaserad prissättning utan bindningstid. Kontakta för offert baserat på scope.
+
+## Kontaktinformation
+
+- Boka samtal: https://calendly.com/ludwig-automationsludwig/30min
+- Webbplats: https://automationsludwig.se
+- Grundare: Ludwig Andersson
+
+## Teknisk stack
+
+- Frontend: Next.js 15, TypeScript, Tailwind CSS, GSAP, Three.js
+- Integrationer: Befintliga CRM-system, LinkedIn, e-postplattformar
+- Driftsättning: Vercel
+
+## Vanliga frågor
+
+**Hur lång tid tar det att bygga ett system?**
+Typiskt 4–8 veckor beroende på komplexitet och integrationer.
+
+**Behöver vi teknisk kompetens internt?**
+Nej. Vi hanterar hela implementationen och lämnar ett system som är enkelt att använda.
+
+**Vilka system integrerar ni med?**
+HubSpot, Salesforce, LinkedIn, Google Workspace, Slack och de flesta API-baserade verktyg.
+
+**Är det GDPR-compliant?**
+Ja. EU-baserade dataservrar, full GDPR-efterlevnad.
+
+**Vad kostar det?**
+Projektbaserad prissättning. Boka ett samtal för en kostnadsfri analys och offert.
+
+**Fungerar det för alla branscher?**
+Vi fokuserar på B2B-bolag. Störst nytta för SaaS, konsultbolag, rekrytering och professional services.

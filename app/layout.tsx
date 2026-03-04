@@ -67,16 +67,57 @@ const organizationJsonLd = {
   sameAs: ["https://www.linkedin.com/in/ludwig-a-automationsludwig/"],
   areaServed: [
     {
-      "@type": "Country",
+      "@type": "City",
+      name: "Stockholm",
+    },
+    {
+      "@type": "City",
       name: "Sweden",
+    },
+    {
+      "@type": "Country",
+      name: "Sverige",
     },
   ],
   inLanguage: "sv-SE",
-  serviceType: ["AI-agenter", "AI Automation", "Säljautomatisering", "B2B Outreach Automation", "Processautomatisering", "CRM Integration"],
+  serviceType: [
+    {
+      "@type": "Service",
+      name: "AI-agenter",
+      description: "Intelligenta automationssystem baserade på AI för att hantera komplexa affärsprocesser",
+    },
+    {
+      "@type": "Service",
+      name: "Säljautomatisering",
+      description: "Automatiserad prospektering, lead qualification och customer outreach",
+    },
+    {
+      "@type": "Service",
+      name: "B2B Outreach Automation",
+      description: "AI-driven email outreach och LinkedIn-prospektering för B2B-bolag",
+    },
+    {
+      "@type": "Service",
+      name: "Processautomatisering",
+      description: "Automatisering av repetitiva affärsprocesser med n8n och Make.com",
+    },
+    {
+      "@type": "Service",
+      name: "CRM Integration",
+      description: "Integration mellan olika CRM-system, automatiseringsplattformar och affärssystem",
+    },
+    {
+      "@type": "Service",
+      name: "AI-agenter",
+      description: "Custom AI-agenter för intern och extern automation",
+    },
+  ],
   offers: {
-    "@type": "Offer",
-    description: "AI-drivet automatiseringssystem för B2B",
+    "@type": "AggregateOffer",
+    description: "Anpassade AI-automationslösningar för B2B-bolag",
     priceCurrency: "SEK",
+    priceRange: "25000-200000",
+    pricingModel: "Per projekt",
   },
   contactPoint: {
     "@type": "ContactPoint",
@@ -84,6 +125,109 @@ const organizationJsonLd = {
     url: "https://calendly.com/ludwig-automationsludwig/30min",
     availableLanguage: ["sv", "en"],
   },
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Hem",
+      item: "https://automationsludwig.se",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Tjänster",
+      item: "https://automationsludwig.se#services",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Case Studies",
+      item: "https://automationsludwig.se#case",
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      name: "Process",
+      item: "https://automationsludwig.se#process",
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      name: "FAQ",
+      item: "https://automationsludwig.se#faq",
+    },
+  ],
+};
+
+const caseStudyEventJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: "Swedish Cold AI-outreach automation",
+  description:
+    "Case study: AI-drivet emailsystem som automatiserade prospektering och uppföljning för Swedish Cold, vilket resulterade i 15–20 möten per månad på 14 dagar.",
+  startDate: "2024-01-01",
+  endDate: "2024-01-14",
+  eventStatus: "EventScheduled",
+  eventAttendanceMode: "OnlineEventAttendanceMode",
+  location: {
+    "@type": "Place",
+    name: "Stockholm",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Stockholm",
+      addressCountry: "SE",
+    },
+  },
+  organizer: {
+    "@type": "Organization",
+    name: "AutomationsLudwig",
+    url: "https://automationsludwig.se",
+  },
+  performer: {
+    "@type": "Person",
+    name: "Ludwig Andersson",
+    url: "https://www.linkedin.com/in/ludwig-a-automationsludwig/",
+  },
+  potentialAction: [
+    {
+      "@type": "TradeAction",
+      name: "120k SEK direkta ROI",
+      description: "Direkt avkastning på investering inom 14 dagar",
+      result: {
+        "@type": "QuantitativeValue",
+        value: "120000",
+        currency: "SEK",
+      },
+    },
+    {
+      "@type": "TradeAction",
+      name: "15–20 möten per månad",
+      description: "Ökad säljpipeline från AI-driven prospektering",
+      result: {
+        "@type": "QuantitativeValue",
+        value: "15",
+        minValue: "15",
+        maxValue: "20",
+        unitText: "möten/månad",
+      },
+    },
+    {
+      "@type": "TradeAction",
+      name: "500k+ SEK pipeline",
+      description: "Total värde av genererade leads och möten",
+      result: {
+        "@type": "QuantitativeValue",
+        value: "500000",
+        currency: "SEK",
+        unitText: "SEK+",
+      },
+    },
+  ],
 };
 
 const faqJsonLd = {
@@ -163,6 +307,14 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c") }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudyEventJsonLd).replace(/</g, "\\u003c") }}
         />
         <script
           type="application/ld+json"

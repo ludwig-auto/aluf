@@ -1,7 +1,7 @@
 const logos = [
-  { src: "/logos/swedish-cold.png", alt: "Swedish Cold", width: 120, height: 40 },
-  { src: "/logos/checkatab.png", alt: "Checkat", width: 120, height: 40 },
-  { src: "/logos/extend.png", alt: "Extendmarketing AB", width: 120, height: 40 },
+  { src: "/logos/swedish-cold.webp", srcset: "/logos/swedish-cold.avif", alt: "Swedish Cold", width: 120, height: 40 },
+  { src: "/logos/checkatab.webp", srcset: "/logos/checkatab.avif", alt: "Checkat", width: 120, height: 40 },
+  { src: "/logos/extend.webp", srcset: "/logos/extend.avif", alt: "Extendmarketing AB", width: 120, height: 40 },
   { src: "/logos/grooo.svg", alt: "Grooo", width: 120, height: 40 },
   { src: "/logos/visionsfastigheter.svg", alt: "Visions Fastigheter", width: 120, height: 40 },
 ];
@@ -38,6 +38,7 @@ export default function TrustedBy() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={logo.src}
+                srcSet={logo.srcset ? `${logo.srcset} 1x, ${logo.src} 1x` : undefined}
                 alt={logo.alt}
                 className="h-11 w-auto brightness-0 invert opacity-50 hover:opacity-90 transition-opacity duration-300 select-none"
                 draggable={false}

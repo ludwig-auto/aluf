@@ -79,12 +79,13 @@ function MobileProofCard() {
         {/* Client logo */}
         <div style={{ marginBottom: 14 }}>
           <Image
-            src="/logos/swedish-cold.png"
+            src="/logos/swedish-cold.webp"
             alt="Swedish Cold"
             width={120}
             height={24}
             style={{ height: "auto", width: "auto", filter: "brightness(0) invert()" }}
             priority={false}
+            loading="lazy"
           />
         </div>
 
@@ -334,7 +335,7 @@ export default function Hero() {
               contentClassName="gap-2"
             >
               Se vad som stjäl er tid
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5" aria-hidden="true" />
             </GlassButton>
           </div>
 
@@ -342,7 +343,7 @@ export default function Hero() {
           <a
             ref={linkRef}
             href="#case"
-            className="block w-full text-center lg:w-auto lg:text-left text-[14px] lg:text-sm font-light text-white/65 hover:text-violet-400 transition-colors"
+            className="block w-full text-center lg:w-auto lg:text-left text-[14px] lg:text-sm font-light text-white/65 hover:text-violet-400 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
           >
             Se hur jag gjorde det för Swedish Cold →
           </a>

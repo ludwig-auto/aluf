@@ -1,68 +1,121 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Linkedin, Mail } from "lucide-react";
+import { LinkedinIcon, Mail } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function Team() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const fadeUp = (delay = 0) =>
+    shouldReduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 24 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.5, ease: "easeOut" as const, delay },
+        };
+
   return (
-    <section className="py-20 md:py-24 bg-black" id="team">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-tight text-white mb-4">
-            Teamet
+    <section className="py-16 md:py-24 bg-black" id="team">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+        <motion.div className="mb-10" {...fadeUp()}>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight text-white">
+            Du jobbar alltid med{" "}
+            <span className="font-light text-white/90">
+              samma person
+            </span>
           </h2>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-md mx-auto"
-        >
-          <div className="group bg-white/5 rounded-2xl border border-white/10 p-8 text-center hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300 hover:-translate-y-0.5">
-            {/* Initials instead of generic icon */}
-            <div className="w-24 h-24 rounded-full bg-emerald-700 flex items-center justify-center mx-auto mb-6 ring-4 ring-emerald-500/10 group-hover:ring-emerald-500/20 transition-all">
-              <span className="text-3xl font-semibold text-white">LA</span>
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-start max-w-4xl">
+          {/* Avatar + social */}
+          <motion.div
+            className="shrink-0 flex flex-col items-center gap-5"
+            {...fadeUp(0.1)}
+          >
+            <div className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden ring-2 ring-violet-500/20">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/ludwig.jpg"
+                alt="Ludwig Andersson"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
-
-            <h3 className="text-xl font-light tracking-tight text-white mb-1">
-              Ludwig Andersson
-            </h3>
-            <p className="text-sm text-emerald-400 font-medium mb-4">
-              Founder / AI Automation Engineer
-            </p>
-            <p className="text-sm text-white/50 font-light leading-relaxed mb-6">
-              Bygger AI-system som faktiskt går i produktion. Kan automera allt
-              utom sina egna mejl.
-            </p>
-
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center gap-2">
               <a
                 href="https://www.linkedin.com/in/ludwig-a-automationsludwig/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-emerald-500/20 transition-colors"
+                className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-violet-500/20 transition-colors"
               >
-                <Linkedin className="w-4 h-4 text-white/40 hover:text-emerald-400 transition-colors" />
+                <LinkedinIcon className="w-4 h-4 text-white/40 hover:text-violet-400 transition-colors" />
               </a>
               <a
                 href="mailto:ludwig@automationsludwig.com"
                 aria-label="E-post"
-                className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-emerald-500/20 transition-colors"
+                className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-violet-500/20 transition-colors"
               >
-                <Mail className="w-4 h-4 text-white/40 hover:text-emerald-400 transition-colors" />
+                <Mail className="w-4 h-4 text-white/40 hover:text-violet-400 transition-colors" />
               </a>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div className="flex-1" {...fadeUp(0.2)}>
+            <h3 className="text-xl md:text-2xl font-light tracking-tight text-white mb-1">
+              Ludwig Andersson
+            </h3>
+            <p className="text-violet-400 font-medium text-sm mb-6 tracking-wide">
+              Founder · AI Automation Engineer
+            </p>
+
+            <p className="text-white/60 font-light leading-relaxed mb-8">
+              Jag har byggt AI-system som faktiskt går i produktion, inte demos
+              som ser bra ut i ett möte men aldrig används i verkligheten.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-8">
+              {[
+                "AI-agenter",
+                "Säljautomatisering",
+                "Processautomatisering",
+                "n8n / Make",
+                "API-integrationer",
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-[11px] font-medium text-white/40 border border-white/[0.07] rounded-full bg-white/[0.02]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-all duration-200 group/link"
+            >
+              Prata direkt med Ludwig
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

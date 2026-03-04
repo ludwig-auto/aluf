@@ -1,144 +1,209 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Zap, TrendingUp, Cpu, Plus } from "lucide-react";
+import { memo, useState, useRef } from "react";
+import { Plus } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
-const faqCategories = [
+const faqItems = [
   {
-    title: "Implementation",
-    icon: Zap,
-    items: [
-      {
-        question: "Hur lång tid tar en implementation?",
-        answer: "Typiskt 1–2 veckor för de första resultaten. Vi arbetar i korta sprintar så ni ser faktiskt värde direkt, inte om sex månader.",
-      },
-      {
-        question: "Behöver vi teknisk kompetens internt?",
-        answer: "Nej. Vi fungerar som er externa automation-partner. Vi bygger, implementerar och underhåller systemen åt er.",
-      },
-    ]
+    question: "Vad är AI-agenter och hur skiljer de sig från vanlig automatisering?",
+    answer:
+      "Vanlig automatisering följer fasta regler: gör A, sedan B. AI-agenter kan resonera, fatta beslut och anpassa sig beroende på situation. Det betyder att de kan hantera undantag, skriva personliga meddelanden och lösa problem som en människa annars skulle behöva ta hand om. Resultatet är system som faktiskt fungerar i verkligheten, inte bara i demos.",
   },
   {
-    title: "Teknik & Integration",
-    icon: Cpu,
-    items: [
-      {
-        question: "Vilka system integrerar ni med?",
-        answer: "De flesta moderna CRM (HubSpot, Salesforce), ERP (Fortnox) och kommunikationstjänster (Slack, Gmail). Vi kan även bygga custom-API:er om det krävs.",
-      },
-      {
-        question: "Är det verkligen GDPR-compliant?",
-        answer: "Absolut. Vi använder svenska servrar där det krävs och säkerställer att all AI-hantering sker inom strikta rättsliga ramar. Ni äger er data.",
-      },
-    ]
+    question: "Hur lång tid tar en implementation?",
+    answer:
+      "De flesta projekt levererar första konkreta resultat inom 4 till 6 veckor. Exakt tid beror på scope och hur komplex befintlig stack är, det går jag igenom i det första samtalet.",
   },
   {
-    title: "Leverans & ROI",
-    icon: TrendingUp,
-    items: [
-      {
-        question: "Vad är förväntat ROI?",
-        answer: "Våra kunder ser ofta en tidsbesparing på 20-30 timmar per säljare i månaden, eller som i vårt Swedish Cold-case, 120k i stängda affärer på 14 dagar.",
-      },
-      {
-        question: "Vad kostar en investering?",
-        answer: "Varje projekt är unikt, men mindre automatiseringar börjar från 20 000 SEK. Boka ett strategisamtal för en fast offert.",
-      },
-    ]
-  }
+    question: "Behöver vi teknisk kompetens internt?",
+    answer:
+      "Nej. Jag hanterar hela implementationen och ser till att systemet är enkelt att använda när jag lämnar över. Det ska inte krävas en utvecklare för att köra det ni betalat för.",
+  },
+  {
+    question: "Vilka system integrerar ni med?",
+    answer:
+      "HubSpot, Salesforce, LinkedIn, Google Workspace, Slack och de flesta API-baserade verktyg. Om ni är osäkra på om era system funkar, ta ett samtal så kollar jag.",
+  },
+  {
+    question: "Hur hanterar ni vår data enligt GDPR?",
+    answer:
+      "Ja. Jag kör på EU-baserade dataservrar och följer GDPR fullt ut. Jag kan redogöra för exakt hur data hanteras, inga luddiga svar.",
+  },
+  {
+    question: "Vad är förväntat ROI?",
+    answer:
+      "Det beror på var tidstjuvarna sitter. Swedish Cold såg 120 000 kr tillbaka på 14 dagar. Jag tar bara uppdrag jag tror kommer ge en tydlig avkastning. Om jag inte ser det, säger jag det i det första samtalet.",
+  },
+  {
+    question: "Vad kostar det?",
+    answer:
+      "Priset beror på vad ni behöver. Efter ett första samtal där jag förstår er situation kan jag ge er en offert inom ett uppföljningsmöte. Räkna med att ha ett konkret pris inom två möten.",
+  },
 ];
 
-export default function FAQ() {
-  const [openId, setOpenId] = useState<string | null>(null);
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
+};
+
+function FAQItem({
+  item,
+  index,
+  isOpen,
+  onToggle,
+  reduced,
+  answerRef,
+}: {
+  item: (typeof faqItems)[0];
+  index: number;
+  isOpen: boolean;
+  onToggle: (id: number) => void;
+  reduced: boolean;
+  answerRef: (el: HTMLDivElement | null) => void;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <section className="py-20 md:py-24 bg-black" id="faq">
+    <motion.div
+      className="group"
+      variants={reduced ? undefined : itemVariants}
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={(e) => {
+          if (reduced) return;
+          const rect = cardRef.current?.getBoundingClientRect();
+          if (rect) setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        }}
+        onMouseEnter={(e) => {
+          if (reduced) return;
+          const rect = cardRef.current?.getBoundingClientRect();
+          if (rect) setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+          setHovered(true);
+        }}
+        onMouseLeave={() => setHovered(false)}
+        className={`relative rounded-2xl border overflow-hidden transition-all duration-300 ${
+          isOpen
+            ? "bg-white/[0.05] border-violet-500/30"
+            : "bg-white/[0.03] border-white/[0.07] hover:border-violet-500/20"
+        }`}
+      >
+        {/* Cursor-follow glow */}
+        {!reduced && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            style={{
+              opacity: hovered ? 1 : 0,
+              background: `radial-gradient(250px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.06), transparent 70%)`,
+            }}
+          />
+        )}
+        <button
+          type="button"
+          id={`faq-button-${index}`}
+          onClick={() => onToggle(index)}
+          aria-expanded={isOpen}
+          aria-controls={`faq-answer-${index}`}
+          className="relative z-10 w-full text-left px-4 py-3 md:p-5"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm md:text-base font-light text-white/90 group-hover:text-white transition-colors">
+              {item.question}
+            </span>
+            <div
+              className={`shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-300 ${
+                isOpen ? "rotate-45" : ""
+              }`}
+            >
+              <Plus className={`w-4 h-4 ${isOpen ? "text-violet-400" : "text-white/40"}`} />
+            </div>
+          </div>
+        </button>
+        <div
+          id={`faq-answer-${index}`}
+          role="region"
+          aria-labelledby={`faq-button-${index}`}
+          aria-hidden={!isOpen}
+          ref={answerRef}
+          className={`overflow-hidden transition-all duration-300 ${
+            isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
+          style={{ overflow: "hidden" }}
+        >
+          <p className="relative z-10 pt-3 md:pt-4 text-sm text-white/75 font-light leading-relaxed border-t border-white/5 mt-0 px-4 md:px-5 pb-3 md:pb-5">
+            {item.answer}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+const FAQ = memo(function FAQ() {
+  const [openId, setOpenId] = useState<number | null>(null);
+  const answerRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const shouldReduceMotion = useReducedMotion();
+
+  const toggleItem = (id: number) => {
+    if (openId === id) {
+      setOpenId(null);
+    } else {
+      setOpenId(id);
+    }
+  };
+
+  return (
+    <section className="py-14 md:py-16 bg-[#040407]" id="faq" aria-labelledby="faq-heading">
       <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          className="text-center mb-8 md:mb-12"
+          initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-tight text-white mb-6">
-            Strategisk <span className="font-serif italic text-gradient-emerald text-neon-glow">klarhet</span>
+          <h2
+            id="faq-heading"
+            className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight text-white mb-4"
+          >
+            De frågor jag får i varje{" "}
+            <span className="font-light text-white/90">
+              första samtal
+            </span>
           </h2>
-          <p className="text-white/60 font-light text-lg">De vanligaste frågorna från företagsledare</p>
         </motion.div>
 
-        <div className="space-y-12">
-          {faqCategories.map((category, catIndex) => {
-            const Icon = category.icon;
-            return (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: catIndex * 0.1 }}
-                className="space-y-4"
-              >
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                    <Icon className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <h3 className="text-sm font-bold tracking-[0.2em] text-emerald-400/80 uppercase">
-                    {category.title}
-                  </h3>
-                </div>
-
-                <div className="grid gap-3">
-                  {category.items.map((item, itemIndex) => {
-                    const id = `${catIndex}-${itemIndex}`;
-                    const isOpen = openId === id;
-                    return (
-                      <motion.div
-                        key={id}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="group"
-                      >
-                        <button
-                          onClick={() => setOpenId(isOpen ? null : id)}
-                          className={`w-full text-left p-6 rounded-2xl glass-panel neon-border transition-all duration-300 ${isOpen ? "bg-white/10" : "bg-white/5 hover:bg-white/10"
-                            }`}
-                        >
-                          <div className="flex items-center justify-between gap-4">
-                            <span className="text-lg font-light text-white/90 group-hover:text-white transition-colors">
-                              {item.question}
-                            </span>
-                            <div className={`shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}>
-                              <Plus className={`w-4 h-4 ${isOpen ? "text-emerald-400" : "text-white/40"}`} />
-                            </div>
-                          </div>
-
-                          <AnimatePresence>
-                            {isOpen && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                <p className="pt-6 text-base text-white/60 font-light leading-relaxed border-t border-white/5 mt-6">
-                                  {item.answer}
-                                </p>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </button>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+        <motion.div
+          className="space-y-2"
+          variants={shouldReduceMotion ? undefined : containerVariants}
+          initial={shouldReduceMotion ? undefined : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {faqItems.map((item, index) => (
+            <FAQItem
+              key={item.question}
+              item={item}
+              index={index}
+              isOpen={openId === index}
+              onToggle={toggleItem}
+              reduced={!!shouldReduceMotion}
+              answerRef={(el) => { answerRefs.current[index] = el; }}
+            />
+          ))}
+        </motion.div>
       </div>
     </section>
   );
-}
+});
+
+export default FAQ;
