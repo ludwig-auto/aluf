@@ -114,8 +114,8 @@ function StepCard({
           setHovered(true);
         }}
         onMouseLeave={() => setHovered(false)}
-        className={`relative h-full flex flex-col pl-8 pb-2
-          md:pl-10 md:pr-10 md:pt-8 md:pb-7 md:rounded-2xl md:border md:overflow-hidden
+        className={`relative flex flex-col pl-8 pb-2
+          md:h-full md:pl-10 md:pr-10 md:pt-8 md:pb-7 md:rounded-2xl md:border md:overflow-hidden
           transition-all duration-300
           ${
             isActive
@@ -316,7 +316,7 @@ export default function Process() {
             transition={{ duration: 0.5, ease: "easeOut" as const }}
           />
 
-          <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6">
+          <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 md:auto-rows-fr">
             {steps.map((step, index) => (
               <StepCard
                 key={step.number}
