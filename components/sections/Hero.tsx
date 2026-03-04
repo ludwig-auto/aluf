@@ -302,15 +302,15 @@ export default function Hero() {
         <NeuralBackground />
       </BackgroundErrorBoundary>
 
-      <div className="relative mx-auto max-w-5xl px-6 pt-24 pb-20 sm:pt-28 md:pt-36 md:pb-28 md:px-10 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-6 pt-20 pb-16 sm:pt-24 md:pt-36 md:pb-28 md:px-10 lg:px-8">
 
         {/* ── Content column — natural HTML order, no CSS reordering ── */}
-        <div className="flex flex-col items-start lg:items-center gap-6 lg:gap-8">
+        <div className="flex flex-col items-start lg:items-center gap-4 sm:gap-5 md:gap-6 lg:gap-8">
 
           {/* 1. Heading */}
           <h1
             ref={headerRef}
-            className="h1 text-left lg:text-center text-white max-w-3xl"
+            className="text-left lg:text-center text-white max-w-3xl text-[2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.768rem] font-light tracking-[-0.03em] leading-[1.1]"
           >
             Mindre manuellt arbete. Fler affärer. På plats på 4 veckor.
           </h1>
@@ -318,7 +318,7 @@ export default function Hero() {
           {/* 2. Subtext */}
           <p
             ref={paraRef}
-            className="text-[15px] lg:text-base text-left lg:text-center font-light leading-[1.6] lg:leading-relaxed tracking-tight text-white/[0.65] lg:text-white/60 max-w-full lg:max-w-lg"
+            className="text-sm sm:text-[15px] lg:text-base text-left lg:text-center font-light leading-[1.5] lg:leading-relaxed tracking-tight text-white/60 max-w-full lg:max-w-lg"
           >
             <span>Jag bygger AI-chattbotar, emailsystem, interna automationer och skräddarsydda appar för bolag som vill växa utan att anställa fler.</span>
             <span className="hidden lg:inline"> Swedish Cold fick 120k SEK i direkt ROI på 14 dagar.</span>
@@ -366,8 +366,7 @@ export default function Hero() {
             </li>
           </ul>
 
-          {/* 6. Social proof card — mobile/tablet only */}
-          <MobileProofCard />
+          {/* 6. Social proof card — removed from mobile version */}
 
         </div>
 
