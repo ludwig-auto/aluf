@@ -1,0 +1,49 @@
+# AutomationsLudwig — AI-automation för B2B-bolag i Sverige
+
+AutomationsLudwig bygger och driftsätter AI-system för svenska B2B-bolag. Vi fokuserar på mätbar ROI och snabb driftsättning.
+
+## Tjänster och Lösningar
+
+**AI B2B Outreach Automation**
+Automatiserade prospekteringsystem som hanterar personaliserad e-post och LinkedIn-uppföljning utan manuell insats. Exempel: Swedish Cold såg 120 000 SEK direkt ROI på 14 dagar.
+
+**CRM-integrationer och Processautomatisering**
+Implementerar AI-agenter som automatiserar försäljningsprocessen, dokumenthantering och rapportering. Integrerar HubSpot, Salesforce, Google Workspace och Slack.
+
+**Skräddarsydda AI-system**
+Bygger anpassade AI-lösningar för specifika affärbehov. Från administrativa automationer till kundinteraktion.
+
+## Varför AutomationsLudwig
+
+- Mätbara resultat på 4–6 veckor (inte månader)
+- Du jobbar alltid direkt med Ludwig, ingen mellanlager
+- Beprövad ROI: Swedish Cold genererade 120 000 SEK på 14 dagar
+- GDPR-compliant med EU-baserade dataservrar
+- Transparent prismodell utan bindningstider
+
+## Hur vi arbetar
+
+1. **Utforska** (1 vecka): Vi identifierar dina största tidstjuvar och utmaningar
+2. **Bygg** (2–3 veckor): Vi designar och implementerar systemet transparent
+3. **Rulla ut** (1–2 veckor): Agil implementation med mätbara leveranser
+4. **Förfina** (löpande): Vi övervakar och optimerar systemet kontinuerligt
+
+## Teknisk Information
+
+- **Plattform**: Next.js 15, TypeScript, React
+- **Automation Stack**: n8n, Make.com, AI-agenter (Claude, GPT)
+- **Fokusmarknad**: Sverige, B2B-bolag i Stockholm och runt om i landet
+- **Fokusområden**: Säljautomatisering, processautomatisering, AI-agenter
+
+## Kontakt & Bokning
+
+Boka ett gratis samtal: https://calendly.com/ludwig-automationsludwig/30min
+
+Webbplats: https://automationsludwig.se
+LinkedIn: https://www.linkedin.com/in/ludwig-a-automationsludwig/
+
+## Om AutomationsLudwig
+
+Grundad av Ludwig Andersson, Stockholm. Specialiserad på att bygga AI-automation som faktiskt genererar resultat utan att kräva intern teknisk kompetens.
+
+Alla projekt börjar med ett gratis samtal där vi förstår din situation och kan ge en konkret offert inom två möten.

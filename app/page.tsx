@@ -1,29 +1,65 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/sections/Navbar";
 import Hero from "@/components/sections/Hero";
-import FeaturedCase from "@/components/sections/FeaturedCase";
-import Solutions from "@/components/sections/Solutions";
-import TrustedBy from "@/components/sections/TrustedBy";
-import Process from "@/components/sections/Process";
-import WhyUs from "@/components/sections/WhyUs";
-import Team from "@/components/sections/Team";
-import FAQ from "@/components/sections/FAQ";
-import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
+
+// Dynamic imports for below-fold sections
+const TrustedBy = dynamic(() => import("@/components/sections/TrustedBy"), {
+  ssr: true,
+  loading: () => <div className="h-16 bg-black" />,
+});
+
+const Solutions = dynamic(() => import("@/components/sections/Solutions"), {
+  ssr: true,
+  loading: () => <div className="h-32 bg-black" />,
+});
+
+const FeaturedCase = dynamic(() => import("@/components/sections/FeaturedCase"), {
+  ssr: true,
+  loading: () => <div className="h-64 bg-[#040407]" />,
+});
+
+const WhyUs = dynamic(() => import("@/components/sections/WhyUs"), {
+  ssr: true,
+  loading: () => <div className="h-64 bg-black" />,
+});
+
+const Process = dynamic(() => import("@/components/sections/Process"), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-[#040407]" />,
+});
+
+const Team = dynamic(() => import("@/components/sections/Team"), {
+  ssr: true,
+  loading: () => <div className="h-48 bg-black" />,
+});
+
+const FAQ = dynamic(() => import("@/components/sections/FAQ"), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-[#040407]" />,
+});
+
+const FinalCTA = dynamic(() => import("@/components/sections/FinalCTA"), {
+  ssr: true,
+  loading: () => <div className="h-48 bg-black" />,
+});
 
 export default function Home() {
   return (
-    <main>
+    <>
       <Navbar />
-      <Hero />
-      <FeaturedCase />
-      <TrustedBy />
-      <Solutions />
-      <Process />
-      <WhyUs />
-      <Team />
-      <FAQ />
-      <FinalCTA />
+      <main id="main-content">
+        <Hero />
+        <TrustedBy />
+        <Solutions />
+        <FeaturedCase />
+        <WhyUs />
+        <Process />
+        <Team />
+        <FAQ />
+        <FinalCTA />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

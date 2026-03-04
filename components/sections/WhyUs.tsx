@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { Zap, Target, Users, Shield } from "lucide-react";
 
@@ -30,20 +31,19 @@ const points = [
   },
 ];
 
-export default function WhyUs() {
+const WhyUs = memo(function WhyUs() {
   return (
-    <section className="py-20 md:py-24 bg-gray-50/50">
+    <section className="py-20 md:py-24 bg-black">
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-gray-900 mb-4">
-            Varför{" "}
-            <span className="font-serif italic text-emerald-700">vi</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-tight text-white mb-4">
+            Varför <span className="font-serif italic text-gradient-emerald text-neon-glow">vi</span>
           </h2>
         </motion.div>
 
@@ -51,60 +51,41 @@ export default function WhyUs() {
           {points.map(({ Icon, title, description, featured }, i) => (
             <motion.div
               key={title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className={`group relative rounded-2xl transition-all duration-300 ${
-                featured
-                  ? "overflow-hidden hover:shadow-xl hover:shadow-emerald-200 hover:-translate-y-1"
-                  : "bg-white border border-gray-100 hover:shadow-lg hover:shadow-emerald-50 hover:border-emerald-100 hover:-translate-y-0.5"
-              }`}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className={`group relative rounded-2xl transition-all duration-300 ${featured
+                ? "overflow-hidden hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1"
+                : "bg-white/5 border border-white/10 hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/40 hover:-translate-y-0.5"
+                }`}
             >
               {featured && (
-                <>
-                  {/* Gradient background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-emerald-700" />
-
-                  {/* Dithered overlay */}
-                  <div
-                    className="absolute inset-0 opacity-60"
-                    style={{
-                      backgroundImage: `
-                        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px),
-                        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px)
-                      `,
-                    }}
-                  />
-                </>
+                <div className="absolute inset-0 bg-emerald-500/5 border border-emerald-500/40" />
               )}
 
               <div className={`relative flex gap-5 p-8 ${featured ? "text-white" : ""}`}>
                 <div
-                  className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                    featured
-                      ? "bg-white/10"
-                      : "bg-emerald-50 group-hover:bg-emerald-100"
-                  }`}
+                  className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${featured
+                    ? "bg-emerald-500/10 border border-emerald-500/20"
+                    : "bg-white/5 border border-white/10 group-hover:bg-emerald-500/10"
+                    }`}
                 >
                   <Icon
-                    className={`w-5 h-5 ${
-                      featured ? "text-white/80" : "text-emerald-600"
-                    }`}
+                    className={`w-5 h-5 ${featured ? "text-emerald-400" : "text-emerald-500/60"
+                      }`}
                   />
                 </div>
                 <div>
                   <h3
-                    className={`text-lg font-light tracking-tight mb-1 ${
-                      featured ? "text-white" : "text-gray-900"
-                    }`}
+                    className={`text-lg font-light tracking-tight mb-1 ${featured ? "text-white" : "text-white/90"
+                      }`}
                   >
                     {title}
                   </h3>
                   <p
-                    className={`text-sm font-light leading-relaxed ${
-                      featured ? "text-white/80" : "text-gray-500"
-                    }`}
+                    className={`text-sm font-light leading-relaxed ${featured ? "text-white/80" : "text-white/50"
+                      }`}
                   >
                     {description}
                   </p>
@@ -116,4 +97,6 @@ export default function WhyUs() {
       </div>
     </section>
   );
-}
+});
+
+export default WhyUs;

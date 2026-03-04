@@ -1,0 +1,33 @@
+# AutomationsLudwig robots.txt
+# Allow all indexing, explicitly permit AI/LLM training bots
+
+User-agent: *
+Allow: /
+
+# AI training and research bots - explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap
+Sitemap: https://automationsludwig.se/sitemap.xml

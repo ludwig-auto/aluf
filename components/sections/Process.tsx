@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo, useRef } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Search, Hammer, Rocket, RefreshCw } from "lucide-react";
 
 const steps = [
@@ -38,39 +39,48 @@ const steps = [
   },
 ];
 
-export default function Process() {
+const Process = memo(function Process() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"],
+  });
+
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
-    <section className="py-20 md:py-24 bg-white" id="process">
+    <section className="py-20 md:py-24 bg-black overflow-hidden" id="process" ref={containerRef}>
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-gray-900 mb-4">
-            Så här <span className="font-serif italic text-emerald-700">funkar</span> det
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-white mb-4">
+            Så här <span className="font-serif italic text-gradient-emerald text-neon-glow">funkar</span> det
           </h2>
-          <p className="text-gray-500 font-light text-lg max-w-xl mx-auto">
+          <p className="text-white/60 font-light text-lg max-w-xl mx-auto">
             Från första samtal till mätbara resultat
           </p>
         </motion.div>
 
         {/* Timeline */}
         <div className="relative">
-          {/* Connecting line (desktop) - animated */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-emerald-100 -translate-y-1/2">
+          {/* Connecting line (desktop) - animated based on scroll */}
+          <div className="hidden lg:block absolute top-[44px] left-[15%] right-[15%] h-0.5 bg-white/10">
             <motion.div
-              className="h-full bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300"
-              initial={{ width: "0%" }}
-              whileInView={{ width: "100%" }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 1.5, ease: "easeInOut", delay: 0.3 }}
+              style={{ scaleX, transformOrigin: "left" }}
+              className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 h-full shadow-[0_0_15px_rgba(16,185,129,0.5)]"
             />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
             {steps.map((step, i) => {
               const Icon = step.Icon;
               return (
@@ -78,29 +88,44 @@ export default function Process() {
                   key={step.number}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="group relative bg-white rounded-2xl border border-gray-100 p-7 hover:shadow-lg hover:shadow-emerald-50 hover:border-emerald-100 transition-all duration-300 hover:-translate-y-0.5"
+                  className="group relative"
                 >
-                  {/* Step number */}
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-semibold tracking-[0.1em] text-emerald-500">
-                      {step.number}
-                    </span>
-                    <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
-                      <Icon className="w-4 h-4 text-emerald-600" />
+                  <div className="relative bg-white/5 rounded-2xl border border-white/10 p-8 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-500/40 transition-all duration-500 group-hover:-translate-y-2">
+                    {/* Glow effect on hover */}
+                    <div className="absolute inset-0 rounded-2xl bg-emerald-500/0 group-hover:bg-emerald-500/5 transition-colors duration-500" />
+
+                    {/* Step number & Icon */}
+                    <div className="flex items-center justify-between mb-8 relative z-10">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold tracking-[0.2em] text-emerald-400 uppercase mb-1 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">
+                          Steg
+                        </span>
+                        <span className="text-2xl font-display font-medium text-white leading-none">
+                          {step.number}
+                        </span>
+                      </div>
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-emerald-500 group-hover:rotate-6 transition-all duration-500 shadow-sm group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                        <Icon className="w-5 h-5 text-emerald-400 group-hover:text-white transition-colors duration-500" />
+                      </div>
+                    </div>
+
+                    <div className="relative z-10">
+                      <h3 className="text-xl font-medium tracking-tight text-white mb-3 group-hover:text-emerald-400 transition-colors">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm text-white/50 font-light leading-relaxed mb-6">
+                        {step.description}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                        <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider">
+                          {step.duration}
+                        </span>
+                      </div>
                     </div>
                   </div>
-
-                  <h3 className="text-xl font-light tracking-tight text-gray-900 mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 font-light leading-relaxed mb-4">
-                    {step.description}
-                  </p>
-                  <span className="text-xs text-emerald-600 font-medium">
-                    {step.duration}
-                  </span>
                 </motion.div>
               );
             })}
@@ -109,4 +134,6 @@ export default function Process() {
       </div>
     </section>
   );
-}
+});
+
+export default Process;

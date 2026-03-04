@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { motion } from "framer-motion";
 
 function cn(...inputs: (string | undefined | null | false)[]): string {
   return inputs.filter(Boolean).join(" ");
@@ -102,18 +103,24 @@ const shadowStyle: React.CSSProperties = {
 export const GlassButton = React.forwardRef<HTMLElement, GlassButtonProps>(
   ({ className, children, size = "default", contentClassName, href, onClick }, ref) => {
     const [hovered, setHovered] = React.useState(false);
+    const buttonRef = React.useRef<HTMLDivElement>(null);
+
+    const handleMouseEnter = () => setHovered(true);
+    const handleMouseLeave = () => setHovered(false);
 
     const content = (
       <>
         {/* Glass base layer */}
         <span style={glassBaseStyle} aria-hidden />
+
         {/* Glass specular highlight */}
         <span style={glassShineStyle} aria-hidden />
+
         {/* Text content */}
         <span
           style={{
             ...textStyle,
-            transform: hovered ? "scale(0.98)" : "scale(1)",
+            transform: hovered ? "scale(1.02)" : "scale(1)",
           }}
           className={cn(sizeMap[size], contentClassName)}
         >
@@ -122,58 +129,62 @@ export const GlassButton = React.forwardRef<HTMLElement, GlassButtonProps>(
       </>
     );
 
-    const wrapHoverStyle: React.CSSProperties = {
-      ...wrapStyle,
-      boxShadow: hovered
-        ? "0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(16, 185, 129, 0.1)"
-        : wrapStyle.boxShadow,
-      transform: hovered ? "translateY(-2px)" : "none",
-    };
+    const renderButton = () => {
+      const commonProps = {
+        ref: buttonRef as any,
+        className: cn("group relative", className),
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        style: {
+          cursor: "pointer",
+          borderRadius: "9999px",
+          display: "inline-block",
+        } as any,
+      };
 
-    if (href) {
-      return (
-        <div
-          className={cn(className)}
-          style={wrapHoverStyle}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+      const innerContent = (
+        <motion.div
+          style={{
+            position: "relative",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "9999px",
+            boxShadow: hovered
+              ? "0 10px 25px -5px rgba(16, 185, 129, 0.2), 0 8px 10px -6px rgba(16, 185, 129, 0.1)"
+              : "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+            transition: "box-shadow 0.3s ease",
+          }}
         >
-          <a
-            href={href}
-            style={btnStyle}
-            onClick={onClick as any}
-            ref={ref as any}
-          >
-            {content}
-          </a>
-          <span
-            style={{ ...shadowStyle, opacity: hovered ? 1 : 0 }}
+          {href ? (
+            <a href={href} style={btnStyle} onClick={onClick as any} ref={ref as any}>
+              {content}
+            </a>
+          ) : (
+            <button style={btnStyle} onClick={onClick as any} ref={ref as any}>
+              {content}
+            </button>
+          )}
+          <motion.span
+            style={{
+              ...shadowStyle,
+              opacity: hovered ? 0.6 : 0,
+              scale: hovered ? 1.2 : 0.8,
+            }}
+            transition={{ duration: 0.4 }}
             aria-hidden
           />
-        </div>
+        </motion.div>
       );
-    }
 
-    return (
-      <div
-        className={cn(className)}
-        style={wrapHoverStyle}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <button
-          style={btnStyle}
-          onClick={onClick as any}
-          ref={ref as any}
-        >
-          {content}
-        </button>
-        <span
-          style={{ ...shadowStyle, opacity: hovered ? 1 : 0 }}
-          aria-hidden
-        />
-      </div>
-    );
+      return (
+        <motion.div {...commonProps}>
+          {innerContent}
+        </motion.div>
+      );
+    };
+
+    return renderButton();
   }
 );
 GlassButton.displayName = "GlassButton";

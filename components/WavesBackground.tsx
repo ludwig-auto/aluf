@@ -2,19 +2,12 @@
 import { useEffect, useRef } from 'react'
 import { createNoise2D } from 'simplex-noise'
 
-interface Point {
-  x: number
-  y: number
-  wave: { x: number; y: number }
-  cursor: { x: number; y: number; vx: number; vy: number }
-}
-
 export function WavesBackground({ className = '' }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseRef = useRef({
-    x: -10,
-    y: 0,
+    x: -1000,
+    y: -1000,
     lx: 0,
     ly: 0,
     sx: 0,
@@ -24,169 +17,166 @@ export function WavesBackground({ className = '' }: { className?: string }) {
     a: 0,
     set: false,
   })
-  const pathsRef = useRef<SVGPathElement[]>([])
-  const linesRef = useRef<Point[][]>([])
+
   const noiseRef = useRef<((x: number, y: number) => number) | null>(null)
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current || !svgRef.current) return
+    if (!containerRef.current || !canvasRef.current) return
 
     noiseRef.current = createNoise2D()
     const container = containerRef.current
-    const svg = svgRef.current
-    const strokeColor = '#10b981' // emerald-500
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d', { alpha: true })
+    if (!ctx) return
 
-    // Set size
+    // High DPI support
     const setSize = () => {
       const { width, height } = container.getBoundingClientRect()
-      svg.style.width = `${width}px`
-      svg.style.height = `${height}px`
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      ctx.scale(dpr, dpr)
       return { width, height }
     }
 
-    // Setup lines
-    const setLines = () => {
+    // Grid constants - Optimized density for performance (4x fewer points)
+    const xGap = 25
+    const yGap = 25
+    const strokeColor = '#10b981' // emerald-500
+
+    // Points storage
+    let points: { x: number; y: number; vx: number; vy: number; ox: number; oy: number }[] = []
+
+    const initPoints = () => {
       const { width, height } = setSize()
-      linesRef.current = []
-      pathsRef.current.forEach(p => p.remove())
-      pathsRef.current = []
+      points = []
+      const totalCol = Math.ceil((width + 100) / xGap)
+      const totalRow = Math.ceil((height + 100) / yGap)
+      const xStart = (width - xGap * totalCol) / 2
+      const yStart = (height - yGap * totalRow) / 2
 
-      const xGap = 8
-      const yGap = 8
-      const oWidth = width + 200
-      const oHeight = height + 30
-      const totalLines = Math.ceil(oWidth / xGap)
-      const totalPoints = Math.ceil(oHeight / yGap)
-      const xStart = (width - xGap * totalLines) / 2
-      const yStart = (height - yGap * totalPoints) / 2
-
-      for (let i = 0; i < totalLines; i++) {
-        const points: Point[] = []
-
-        for (let j = 0; j < totalPoints; j++) {
-          points.push({
-            x: xStart + xGap * i,
-            y: yStart + yGap * j,
-            wave: { x: 0, y: 0 },
-            cursor: { x: 0, y: 0, vx: 0, vy: 0 },
-          })
+      for (let i = 0; i < totalCol; i++) {
+        for (let j = 0; j < totalRow; j++) {
+          const x = xStart + i * xGap
+          const y = yStart + j * yGap
+          points.push({ x, y, vx: 0, vy: 0, ox: x, oy: y })
         }
-
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-        path.setAttribute('fill', 'none')
-        path.setAttribute('stroke', strokeColor)
-        path.setAttribute('stroke-width', '1')
-        path.setAttribute('opacity', '0.4')
-        svg.appendChild(path)
-        pathsRef.current.push(path)
-        linesRef.current.push(points)
       }
     }
 
-    // Mouse handlers
     const updateMouse = (x: number, y: number) => {
       const rect = container.getBoundingClientRect()
-      const mouse = mouseRef.current
-      mouse.x = x - rect.left
-      mouse.y = y - rect.top + window.scrollY
+      mouseRef.current.x = x - rect.left
+      mouseRef.current.y = y - rect.top
 
-      if (!mouse.set) {
-        mouse.sx = mouse.x
-        mouse.sy = mouse.y
-        mouse.lx = mouse.x
-        mouse.ly = mouse.y
-        mouse.set = true
+      if (!mouseRef.current.set) {
+        mouseRef.current.sx = mouseRef.current.x
+        mouseRef.current.sy = mouseRef.current.y
+        mouseRef.current.lx = mouseRef.current.x
+        mouseRef.current.ly = mouseRef.current.y
+        mouseRef.current.set = true
       }
     }
 
-    const onMouseMove = (e: MouseEvent) => updateMouse(e.pageX, e.pageY)
+    const onMouseMove = (e: MouseEvent) => updateMouse(e.clientX, e.clientY)
     const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault()
-      updateMouse(e.touches[0].clientX, e.touches[0].clientY)
+      if (e.touches[0]) updateMouse(e.touches[0].clientX, e.touches[0].clientY)
     }
 
-    // Animation
+    let frameCount = 0
     const tick = (time: number) => {
+      frameCount++
+      const { width, height } = canvas.getBoundingClientRect()
+      const noise = noiseRef.current!
       const mouse = mouseRef.current
-      const noise = noiseRef.current
-      if (!noise) return
 
-      // Smooth mouse
-      mouse.sx += (mouse.x - mouse.sx) * 0.1
-      mouse.sy += (mouse.y - mouse.sy) * 0.1
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height)
 
-      const dx = mouse.x - mouse.lx
-      const dy = mouse.y - mouse.ly
-      const d = Math.hypot(dx, dy)
+      // Skip expensive physics calculations every other frame
+      const skipPhysics = frameCount % 2 === 0
 
-      mouse.v = d
-      mouse.vs += (d - mouse.vs) * 0.1
-      mouse.vs = Math.min(100, mouse.vs)
-      mouse.lx = mouse.x
-      mouse.ly = mouse.y
-      mouse.a = Math.atan2(dy, dx)
-
-      // Move points
-      linesRef.current.forEach((points) => {
-        points.forEach((p) => {
-          const move = noise((p.x + time * 0.008) * 0.003, (p.y + time * 0.003) * 0.002) * 8
-          p.wave.x = Math.cos(move) * 12
-          p.wave.y = Math.sin(move) * 6
-
-          const dx = p.x - mouse.sx
-          const dy = p.y - mouse.sy
-          const d = Math.hypot(dx, dy)
-          const l = Math.max(175, mouse.vs)
-
-          if (d < l) {
-            const s = 1 - d / l
-            const f = Math.cos(d * 0.001) * s
-            p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00035
-            p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00035
-          }
-
-          p.cursor.vx += (0 - p.cursor.x) * 0.01
-          p.cursor.vy += (0 - p.cursor.y) * 0.01
-          p.cursor.vx *= 0.95
-          p.cursor.vy *= 0.95
-          p.cursor.x += p.cursor.vx
-          p.cursor.y += p.cursor.vy
-          p.cursor.x = Math.min(50, Math.max(-50, p.cursor.x))
-          p.cursor.y = Math.min(50, Math.max(-50, p.cursor.y))
-        })
-      })
+      if (!skipPhysics) {
+        // Smooth mouse
+        mouse.sx += (mouse.x - mouse.sx) * 0.1
+        mouse.sy += (mouse.y - mouse.sy) * 0.1
+        const dx = mouse.x - mouse.lx
+        const dy = mouse.y - mouse.ly
+        const d = Math.sqrt(dx * dx + dy * dy) // Optimized distance calc
+        mouse.vs += (d - mouse.vs) * 0.1
+        mouse.vs = Math.min(100, mouse.vs)
+        mouse.lx = mouse.x
+        mouse.ly = mouse.y
+        mouse.a = Math.atan2(dy, dx)
+      }
 
       // Draw lines
-      linesRef.current.forEach((points, i) => {
-        if (points.length < 2 || !pathsRef.current[i]) return
+      ctx.beginPath()
+      ctx.strokeStyle = strokeColor
+      ctx.lineWidth = 1
+      ctx.globalAlpha = 0.6 // Consistent emerald visibility
 
-        const first = points[0]
-        let d = `M ${first.x + first.wave.x} ${first.y + first.wave.y}`
+      const totalCol = Math.ceil((width + 100) / xGap)
+      const totalRow = Math.ceil((height + 100) / yGap)
 
-        for (let j = 1; j < points.length; j++) {
-          const p = points[j]
-          const x = p.x + p.wave.x + p.cursor.x
-          const y = p.y + p.wave.y + p.cursor.y
-          d += `L ${x} ${y}`
+      for (let i = 0; i < totalCol; i++) {
+        for (let j = 0; j < totalRow; j++) {
+          const idx = i * totalRow + j
+          const p = points[idx]
+          if (!p) continue
+
+          const noiseVal = noise((p.ox + time * 0.005) * 0.003, (p.oy + time * 0.002) * 0.002) * 8
+          const waveX = Math.cos(noiseVal) * 10
+          const waveY = Math.sin(noiseVal) * 5
+
+          if (!skipPhysics) {
+            // Mouse interaction - optimized distance calculation
+            const mdx = p.ox - mouse.sx
+            const mdy = p.oy - mouse.sy
+            const mdSq = mdx * mdx + mdy * mdy // Squared distance (avoid sqrt)
+            const l = Math.max(150, mouse.vs * 2)
+            const lSq = l * l
+
+            if (mdSq < lSq) {
+              const md = Math.sqrt(mdSq)
+              const s = 1 - md / l
+              const f = Math.cos(md * 0.001) * s
+              p.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.0004
+              p.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.0004
+            }
+
+            p.vx *= 0.92
+            p.vy *= 0.92
+          }
+
+          // Current pos
+          const posX = p.ox + waveX + p.vx * 20
+          const posY = p.oy + waveY + p.vy * 20
+
+          if (j === 0) {
+            ctx.moveTo(posX, posY)
+          } else {
+            ctx.lineTo(posX, posY)
+          }
         }
-
-        pathsRef.current[i].setAttribute('d', d)
-      })
+      }
+      ctx.stroke()
 
       rafRef.current = requestAnimationFrame(tick)
     }
 
-    // Init
-    setLines()
-    window.addEventListener('resize', setLines)
+    initPoints()
+    window.addEventListener('resize', initPoints)
     window.addEventListener('mousemove', onMouseMove)
-    container.addEventListener('touchmove', onTouchMove, { passive: false })
+    container.addEventListener('touchmove', onTouchMove)
     rafRef.current = requestAnimationFrame(tick)
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
-      window.removeEventListener('resize', setLines)
+      window.removeEventListener('resize', initPoints)
       window.removeEventListener('mousemove', onMouseMove)
       container.removeEventListener('touchmove', onTouchMove)
     }
@@ -195,21 +185,19 @@ export function WavesBackground({ className = '' }: { className?: string }) {
   return (
     <div
       ref={containerRef}
-      className={`absolute inset-0 -z-10 overflow-hidden bg-white ${className}`}
+      className={`absolute inset-0 z-0 overflow-hidden bg-black ${className}`}
     >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30 pointer-events-none" />
+      {/* Subtle obsidian overlay */}
+      <div className="absolute inset-0 bg-black/10 pointer-events-none" />
 
-      {/* Waves SVG */}
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full opacity-60 pointer-events-none"
       />
 
-      {/* Radial glow effects */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none" style={{ animationDelay: '1s' }} />
+      {/* Subtle radial glow effects */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-900/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-900/10 rounded-full blur-[120px] pointer-events-none" />
     </div>
   )
 }

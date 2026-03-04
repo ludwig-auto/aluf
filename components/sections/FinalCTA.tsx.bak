@@ -6,21 +6,29 @@ import { GlassButton } from "@/components/ui/glass-button";
 
 export default function FinalCTA() {
   return (
-    <section className="py-24 px-6 bg-black" id="contact">
+    <section className="py-24 px-6 bg-white" id="contact">
       <div className="max-w-4xl mx-auto">
         {/* Card with pixelated gradient */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="relative bg-black rounded-3xl overflow-hidden border border-emerald-500/20 shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-emerald-500/10 hover:border-emerald-500/40"
+          transition={{ duration: 0.6 }}
+          className="relative rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-3xl"
         >
-          {/* Subtle reflection overlay */}
-          <div className="absolute inset-0 bg-white/5 opacity-20 pointer-events-none" />
+          {/* Gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-emerald-700" />
 
-
-
+          {/* Dithered overlay (CSS method) */}
+          <div
+            className="absolute inset-0 opacity-60"
+            style={{
+              backgroundImage: `
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px)
+              `,
+            }}
+          />
 
           {/* Content */}
           <div className="relative px-8 py-12 md:px-12 md:py-16 text-center">
@@ -34,7 +42,7 @@ export default function FinalCTA() {
             </p>
 
             <GlassButton
-              href="mailto:ludwig@automationsludwig.com"
+              href="mailto:hej@automationsludwig.se"
               size="lg"
               contentClassName="gap-2"
             >
