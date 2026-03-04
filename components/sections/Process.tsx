@@ -252,7 +252,7 @@ export default function Process() {
       className="py-16 md:py-24 bg-[#040407] overflow-hidden"
       id="process"
     >
-      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         {/* Header */}
         <motion.div
           className="text-center mb-8 md:mb-10"

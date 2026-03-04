@@ -18,7 +18,7 @@ export default function Team() {
 
   return (
     <section className="py-16 md:py-24 bg-black" id="team">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div className="mb-10" {...fadeUp()}>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight text-white">
             Du jobbar alltid med{" "}

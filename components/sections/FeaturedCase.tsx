@@ -369,7 +369,7 @@ export default function FeaturedCase() {
         }}
       />
 
-      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16 relative">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16 relative">
 
         {/* ─── Header row: logo left, sprint label right ──────────── */}
         <motion.div

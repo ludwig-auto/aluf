@@ -5,7 +5,7 @@ import { CALENDLY_URL } from "@/lib/constants";
 export default function FinalCTA() {
   return (
     <section className="py-10 md:py-16 px-6 md:px-10 lg:px-16 bg-[#040407]" id="contact">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="relative bg-gradient-to-br from-violet-900/60 via-violet-800/40 to-transparent rounded-3xl overflow-hidden border border-violet-500/20 shadow-2xl">
           {/* Top highlight line */}
           <div className="absolute top-0 inset-x-0 h-px bg-violet-500/30 pointer-events-none" />

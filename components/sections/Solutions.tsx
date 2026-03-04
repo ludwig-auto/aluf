@@ -235,7 +235,7 @@ export default function Solutions() {
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-violet-600/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
-      <div ref={sectionRef} className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16 relative">
+      <div ref={sectionRef} className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16 relative">
         {/* Header */}
         <motion.div
           className="mb-8 md:mb-12"

@@ -3,7 +3,7 @@ import { LinkedinIcon, Mail, MapPin } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="py-10 bg-black border-t border-white/5">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         <div className="grid md:grid-cols-4 gap-8 md:gap-6 mb-8">
           {/* Brand */}
           <div className="md:col-span-1">

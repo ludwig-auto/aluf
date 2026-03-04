@@ -100,7 +100,7 @@ export default function WhyUs() {
 
   return (
     <section id="why-us" className="py-16 md:py-24 bg-black">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
           className="mb-10 md:mb-14 max-w-3xl"
           initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}

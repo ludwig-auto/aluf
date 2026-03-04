@@ -163,7 +163,7 @@ const FAQ = memo(function FAQ() {
 
   return (
     <section className="py-14 md:py-16 bg-[#040407]" id="faq" aria-labelledby="faq-heading">
-      <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-16">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
           className="text-center mb-8 md:mb-12"
           initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}
