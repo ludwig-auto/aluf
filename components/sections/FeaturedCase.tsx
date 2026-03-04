@@ -310,7 +310,7 @@ export default function FeaturedCase() {
           </div>
 
           {/* RIGHT: Timeline + Story — styled box with highlight */}
-          <div className="mt-14 lg:mt-0 lg:pl-14 xl:pl-20 lg:p-6 lg:rounded-2xl lg:border lg:border-violet-500/30 lg:bg-[#13152A]">
+          <div className="mt-14 lg:mt-0 lg:pl-14 xl:pl-20 lg:p-6 lg:rounded-2xl lg:border border-white/[0.07] bg-white/[0.03] hover:border-violet-500/20">
 
             {/* Timeline */}
             <motion.div className="mb-10 md:mb-14" {...fadeUp(0.15)}>
