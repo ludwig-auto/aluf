@@ -212,7 +212,7 @@ export default function FeaturedCase() {
   return (
     <section
       ref={sectionRef}
-      className="pt-12 pb-20 md:pt-16 md:pb-24 bg-[#0A0B14] relative overflow-hidden"
+      className="pt-12 pb-20 md:pt-16 md:pb-24 bg-black relative overflow-hidden"
       id="case"
       aria-labelledby="case-heading"
     >
