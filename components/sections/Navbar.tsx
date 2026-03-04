@@ -96,11 +96,11 @@ export default function Navbar() {
               rel="noopener noreferrer"
               aria-label="Boka gratis samtal på Calendly (öppnas i nytt fönster)"
               className="
-                group hidden md:flex items-center gap-1.5
+                group hidden md:inline-flex items-center gap-1.5
                 px-4 py-[7px]
                 rounded-full
                 text-[13px] font-medium text-white/90
-                transition-all duration-200
+                transition-colors duration-200
                 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400
               "
               style={{
@@ -121,7 +121,7 @@ export default function Navbar() {
               }}
             >
               Boka gratis samtal
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5" aria-hidden="true" />
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5 shrink-0" style={{ transform: "translateZ(0)" }} aria-hidden="true" />
             </a>
 
             {/* Mobile hamburger */}
@@ -184,7 +184,7 @@ export default function Navbar() {
                   group flex items-center justify-center gap-2 w-full
                   py-3 px-5 rounded-[14px]
                   text-[16px] font-medium text-white/90
-                  transition-all duration-200
+                  transition-colors duration-200
                   focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400
                 "
                 style={{
@@ -193,7 +193,7 @@ export default function Navbar() {
                 }}
               >
                 Boka gratis samtal
-                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5" aria-hidden="true" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5 shrink-0" style={{ transform: "translateZ(0)" }} aria-hidden="true" />
               </a>
             </div>
           </div>

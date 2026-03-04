@@ -35,7 +35,7 @@ export default function FinalCTA() {
               contentClassName="gap-2"
             >
               Boka gratis samtal
-              <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5" />
+              <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5 shrink-0" style={{ transform: "translateZ(0)" }} aria-hidden="true" />
             </GlassButton>
 
             <p className="mt-4 text-sm text-white/40 font-light">

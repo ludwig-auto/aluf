@@ -30,9 +30,8 @@ export const GlassButton = React.forwardRef<HTMLAnchorElement | HTMLButtonElemen
       "group inline-flex items-center justify-center",
       "rounded-full",
       "font-medium tracking-tight",
-      "transition-all duration-200",
+      "transition-colors duration-200",
       "focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
-      "hover:scale-105 active:scale-95",
       sizeMap[size],
       variant === "primary"
         ? "bg-violet-500/20 border border-violet-400/40 text-white hover:bg-violet-500/30 hover:border-violet-400/60"

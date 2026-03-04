@@ -335,7 +335,7 @@ export default function Hero() {
               contentClassName="gap-2"
             >
               Se vad som stjäl er tid
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5" aria-hidden="true" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5 shrink-0" style={{ transform: "translateZ(0)" }} aria-hidden="true" />
             </GlassButton>
           </div>
 

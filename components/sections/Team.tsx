@@ -95,7 +95,7 @@ export default function Team() {
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-all duration-200 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
             >
               Prata direkt med Ludwig
               <svg
@@ -109,7 +109,8 @@ export default function Team() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden="true"
-                className="group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200"
+                className="group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200 shrink-0"
+                style={{ transform: "translateZ(0)" }}
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
