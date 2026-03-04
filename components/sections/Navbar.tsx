@@ -53,7 +53,7 @@ export default function Navbar() {
             ? "0.5px solid rgba(255,255,255,0.13)"
             : "0.5px solid rgba(255,255,255,0.06)",
           overflow:     "hidden",
-          transition:   "background 0.5s ease, border-color 0.5s ease, border-radius 0.25s ease",
+          transition:   "background 0.5s ease, border-color 0.5s ease, border-radius 0.3s ease-in-out",
         }}
       >
         {/* ─── Desktop bar ──────────────────────────────────────── */}
@@ -145,8 +145,8 @@ export default function Navbar() {
         {/* ─── Mobile menu ──────────────────────────────────────── */}
         <div
           aria-hidden={!mobileOpen}
-          className={`transition-all duration-300 overflow-hidden ${
-            mobileOpen ? "max-h-96" : "max-h-0"
+          className={`transition-all duration-300 ease-in-out overflow-hidden ${
+            mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
           style={{
             borderTop:  "0.5px solid rgba(255,255,255,0.08)",
