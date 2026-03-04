@@ -5,140 +5,6 @@ import Image from "next/image";
 import { TrendingUp } from "lucide-react";
 import { motion, useReducedMotion, useInView } from "framer-motion";
 
-// ─── BigNumber120k ─────────────────────────────────────────────────────────────
-// Phase 1 (0–0.4s): noise — random digits every 40ms
-// Phase 2 (0.4–0.8s): digits lock right→left with vibration
-// Phase 3: glow burst + 4s pulse loop
-const FINAL_CHARS = ["1", "2", "0", "k"];
-const NOISE_POOL = "0123456789";
-
-function BigNumber120k({
-  triggered,
-  reduced,
-}: {
-  triggered: boolean;
-  reduced: boolean;
-}) {
-  const [chars, setChars] = useState<string[]>(() =>
-    FINAL_CHARS.map(() => "0")
-  );
-  const [locked, setLocked] = useState<boolean[]>([false, false, false, false]);
-  const [vibIndex, setVibIndex] = useState<number | null>(null);
-  const [glowing, setGlowing] = useState(false);
-  const hasRun = useRef(false);
-
-  useEffect(() => {
-    if (!triggered) return;
-
-    if (reduced) {
-      setChars([...FINAL_CHARS]);
-      setLocked([true, true, true, true]);
-      setGlowing(true);
-      return;
-    }
-
-    if (hasRun.current) return;
-    hasRun.current = true;
-
-    // mutable lock map for use inside setInterval closure
-    const lockedState = [false, false, false, false];
-
-    // Phase 1: noise every 40ms
-    const noiseId = setInterval(() => {
-      setChars((prev) =>
-        prev.map((c, i) =>
-          lockedState[i]
-            ? c
-            : NOISE_POOL[Math.floor(Math.random() * NOISE_POOL.length)]
-        )
-      );
-    }, 40);
-
-    const timers: ReturnType<typeof setTimeout>[] = [];
-
-    // Phase 2: lock digits right→left starting at 400ms
-    for (let i = FINAL_CHARS.length - 1; i >= 0; i--) {
-      const delay = 400 + (FINAL_CHARS.length - 1 - i) * 100;
-      const idx = i;
-      timers.push(
-        setTimeout(() => {
-          lockedState[idx] = true;
-          setVibIndex(idx);
-          setChars((prev) => {
-            const next = [...prev];
-            next[idx] = FINAL_CHARS[idx];
-            return next;
-          });
-          setLocked((prev) => {
-            const next = [...prev];
-            next[idx] = true;
-            return next;
-          });
-
-          // Clear vibration after 120ms
-          timers.push(
-            setTimeout(
-              () => setVibIndex((v) => (v === idx ? null : v)),
-              120
-            )
-          );
-
-          // Glow when leftmost digit locks
-          if (idx === 0) {
-            timers.push(setTimeout(() => setGlowing(true), 200));
-          }
-        }, delay)
-      );
-    }
-
-    // Stop noise after lock-in phase ends
-    timers.push(setTimeout(() => clearInterval(noiseId), 820));
-
-    return () => {
-      clearInterval(noiseId);
-      timers.forEach(clearTimeout);
-    };
-  }, [triggered, reduced]);
-
-  return (
-    <div style={{ opacity: triggered ? 1 : 0, transition: "opacity 0.2s" }}>
-      <motion.p
-        className="relative text-[2.5rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5rem] font-light tracking-[-0.06em] text-white leading-none select-none"
-        animate={
-          glowing
-            ? {
-                filter: [
-                  "drop-shadow(0 0 24px rgba(139,92,246,0.8)) drop-shadow(0 0 48px rgba(139,92,246,0.4))",
-                  "drop-shadow(0 0 8px rgba(139,92,246,0.2))",
-                  "drop-shadow(0 0 24px rgba(139,92,246,0.8)) drop-shadow(0 0 48px rgba(139,92,246,0.4))",
-                ],
-              }
-            : { filter: "drop-shadow(0 0 0px transparent)" }
-        }
-        transition={
-          glowing
-            ? { duration: 4, repeat: Infinity, ease: "easeInOut" as const }
-            : { duration: 0.3 }
-        }
-      >
-        {chars.map((ch, i) => (
-          <motion.span
-            key={i}
-            animate={vibIndex === i ? { x: [-2, 2, -1, 1, 0] } : { x: 0 }}
-            transition={{ duration: 0.1, ease: "linear" as const }}
-            style={{
-              display: "inline-block",
-              color: locked[i] ? "white" : "rgba(255,255,255,0.3)",
-            }}
-          >
-            {ch}
-          </motion.span>
-        ))}
-      </motion.p>
-    </div>
-  );
-}
-
 // ─── DataStream ────────────────────────────────────────────────────────────────
 // 24 vertical bars, 3px tall, randomised widths, fly-in with stagger on trigger,
 // then quietly update every 1.5s with CSS ease transitions.
@@ -289,24 +155,15 @@ function StatCard({
 
   return (
     <motion.div
-      className="px-4 py-5 rounded-xl border flex flex-col"
+      className="px-4 py-5 rounded-2xl border border-white/[0.07] bg-white/[0.03] hover:border-violet-500/20 flex flex-col transition-colors duration-300"
       initial={reduced ? undefined : { opacity: 0, y: 16 }}
       animate={triggered ? { opacity: 1, y: 0 } : undefined}
       transition={{
         opacity: { duration: 0.5, delay: reduced ? 0 : staggerDelay },
         y: { duration: 0.5, ease: "easeOut" as const, delay: reduced ? 0 : staggerDelay },
       }}
-      style={{
-        backgroundColor: pulsing
-          ? "rgba(139,92,246,0.05)"
-          : "rgba(255,255,255,0.03)",
-        borderColor: done
-          ? "rgba(139,92,246,0.4)"
-          : "rgba(255,255,255,0.07)",
-        transition: "background-color 0.3s, border-color 0.4s",
-      }}
     >
-      <dt className="text-[10px] text-violet-400/80 uppercase tracking-[0.12em] font-semibold order-2">
+      <dt className="text-[10px] text-white/50 uppercase tracking-[0.12em] font-semibold order-2">
         {label}
       </dt>
       <dd className="text-xl md:text-2xl font-semibold tracking-tight text-white mb-1 whitespace-nowrap order-1">
@@ -319,9 +176,10 @@ function StatCard({
 
 // ─── Sprint milestones for timeline ────────────────────────────────────────────
 const MILESTONES = [
-  { day: "Dag 1",  label: "System live"  },
-  { day: "Dag 5",  label: "Första leads" },
-  { day: "Dag 14", label: "120k ROI",    accent: true },
+  { day: "Dag 1",  label: "Discovery Call"  },
+  { day: "Dag 14", label: "System Live" },
+  { day: "Dag 21", label: "Första mötena" },
+  { day: "Dag 28", label: "120k ROI",    accent: true },
 ];
 
 // ─── FeaturedCase ──────────────────────────────────────────────────────────────
@@ -354,7 +212,7 @@ export default function FeaturedCase() {
   return (
     <section
       ref={sectionRef}
-      className="pt-12 pb-20 md:pt-16 md:pb-24 bg-[#040407] relative overflow-hidden"
+      className="pt-12 pb-20 md:pt-16 md:pb-24 bg-[#0A0B14] relative overflow-hidden"
       id="case"
       aria-labelledby="case-heading"
     >
@@ -377,7 +235,7 @@ export default function FeaturedCase() {
           {...fadeUp()}
         >
           <div className="flex flex-col gap-2.5">
-            <span className="text-[9px] font-semibold tracking-[0.4em] text-violet-400/50 uppercase">
+            <span className="text-[9px] font-semibold tracking-[0.4em] text-[#7C5CBF]/70 uppercase">
               Case study
             </span>
             <h2 id="case-heading" className="sr-only">
@@ -392,7 +250,7 @@ export default function FeaturedCase() {
               priority={false}
               loading="lazy"
             />
-            <p className="text-[11px] text-white/30 font-light tracking-wide">
+            <p className="text-[11px] text-[#8888AA] font-light tracking-wide">
               B2B-sälj · AI-outreach
             </p>
           </div>
@@ -408,14 +266,21 @@ export default function FeaturedCase() {
             <div className="mb-8 md:mb-10">
               <div className="relative inline-flex items-end">
                 <div className="absolute -inset-10 bg-violet-400/[0.07] blur-[90px] rounded-full pointer-events-none" />
-                <BigNumber120k triggered={hasTriggered} reduced={reduced} />
+                <motion.p
+                  className="text-[2.5rem] sm:text-[3rem] md:text-[4rem] lg:text-[5.5rem] font-light tracking-[-0.06em] text-white leading-none select-none"
+                  initial={reduced ? undefined : { opacity: 0, y: 16 }}
+                  animate={hasTriggered ? { opacity: 1, y: 0 } : undefined}
+                  transition={{ duration: 0.6, ease: "easeOut" as const }}
+                >
+                  120k
+                </motion.p>
                 <DataStream triggered={hasTriggered} reduced={reduced} />
               </div>
               <motion.div className="flex items-center gap-2.5 mt-3" {...fadeUp(0.1)}>
                 <TrendingUp className="w-5 h-5 text-violet-400 shrink-0" />
                 <p className="text-base md:text-xl font-light tracking-tight text-white/55">
                   i direkt ROI.{" "}
-                  <span className="text-white/90">På 14 dagar.</span>
+                  <span className="text-white/90">På 28 dagar.</span>
                 </p>
               </motion.div>
             </div>
@@ -444,13 +309,13 @@ export default function FeaturedCase() {
 
           </div>
 
-          {/* RIGHT: Timeline + Story — vertical separator on lg */}
-          <div className="mt-14 lg:mt-0 lg:pl-14 xl:pl-20 lg:border-l lg:border-white/[0.05]">
+          {/* RIGHT: Timeline + Story — styled box with highlight */}
+          <div className="mt-14 lg:mt-0 lg:pl-14 xl:pl-20 lg:p-6 lg:rounded-2xl lg:border lg:border-violet-500/30 lg:bg-[#13152A]">
 
             {/* Timeline */}
             <motion.div className="mb-10 md:mb-14" {...fadeUp(0.15)}>
-              <p className="text-[9px] font-semibold tracking-[0.35em] text-white/20 uppercase mb-3">
-                14-dagars sprint
+              <p className="text-[9px] font-semibold tracking-[0.35em] text-[#8888AA]/60 uppercase mb-3">
+                28-dagars sprint
               </p>
               <div className="relative">
                 {/* Track base */}
@@ -482,14 +347,14 @@ export default function FeaturedCase() {
                     >
                       {/* Dot */}
                       {m.accent ? (
-                        <div className="relative flex items-center justify-center w-3 h-3">
+                        <div className="relative flex items-center justify-center w-4 h-4">
                           {/* Soft glow */}
-                          <div className="absolute w-6 h-6 bg-violet-500/30 blur-[8px] rounded-full" />
+                          <div className="absolute w-8 h-8 bg-violet-500/40 blur-[10px] rounded-full" />
                           {/* Pulsing ring */}
                           {hasTriggered && !reduced && (
                             <motion.div
-                              className="absolute w-3 h-3 rounded-full bg-violet-400/40"
-                              animate={{ scale: [1, 2.6, 1], opacity: [0.5, 0, 0.5] }}
+                              className="absolute w-4 h-4 rounded-full bg-violet-400/50"
+                              animate={{ scale: [1, 2.4, 1], opacity: [0.6, 0, 0.6] }}
                               transition={{
                                 duration: 2,
                                 repeat: Infinity,
@@ -498,22 +363,24 @@ export default function FeaturedCase() {
                               }}
                             />
                           )}
-                          <div className="w-3 h-3 rounded-full bg-violet-400 relative z-10" />
+                          <div className="w-4 h-4 rounded-full bg-violet-400 relative z-10" />
                         </div>
                       ) : (
-                        <div className="w-3 h-3 rounded-full border border-white/25 bg-transparent" />
+                        <div className="w-4 h-4 rounded-full border-2 border-white/40 bg-white/[0.05]" />
                       )}
 
                       {/* Labels */}
-                      <div className="flex flex-col items-center gap-1 text-center">
-                        <span className="text-[9px] font-semibold tracking-[0.15em] text-white/30 uppercase">
+                      <div className="flex flex-col items-center gap-1.5 text-center">
+                        <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${
+                          m.accent ? "text-white/60" : "text-white/40"
+                        }`}>
                           {m.day}
                         </span>
                         <span
-                          className={`text-[11px] ${
+                          className={`text-[12px] ${
                             m.accent
-                              ? "font-medium text-white"
-                              : "font-light text-white/75"
+                              ? "font-semibold text-white"
+                              : "font-light text-white/70"
                           }`}
                         >
                           {m.label}
@@ -525,24 +392,16 @@ export default function FeaturedCase() {
               </div>
             </motion.div>
 
-            {/* Story + tag */}
+            {/* Story */}
             <motion.div {...fadeUp(0.25)}>
               <h3 className="text-[1.1rem] md:text-[1.25rem] font-semibold text-white mb-3 leading-snug tracking-tight">
-                Från 0 till 15 möten i månaden. På 14 dagar.
+                Från 0 till 15 möten i månaden. På 28 dagar.
               </h3>
               <p className="text-sm md:text-[15px] text-white/50 font-light leading-relaxed max-w-[400px]">
                 Swedish Colds säljare lade sin tid på att boka möten, inte på att
                 stänga dem. Jag byggde ett AI-emailsystem som sköter prospektering
                 och uppföljning automatiskt. Nu sitter säljarna på closing.
               </p>
-              <div className="mt-5 flex flex-col gap-2">
-                <p className="text-[9px] font-semibold tracking-[0.35em] text-white/20 uppercase">
-                  Tekniker
-                </p>
-                <span className="inline-block px-3 py-2 text-[10px] font-medium text-white/40 bg-white/[0.025] border border-white/[0.07] rounded-lg tracking-widest uppercase w-fit whitespace-nowrap">
-                  Outreach-system
-                </span>
-              </div>
             </motion.div>
 
           </div>
