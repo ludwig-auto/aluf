@@ -316,7 +316,7 @@ export default function Process() {
             transition={{ duration: 0.5, ease: "easeOut" as const }}
           />
 
-          <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 md:auto-rows-fr">
+          <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:auto-rows-fr">
             {steps.map((step, index) => (
               <StepCard
                 key={step.number}
