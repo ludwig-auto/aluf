@@ -95,7 +95,7 @@ export default function Team() {
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+              className="inline-flex items-center card-grid px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
             >
               Prata direkt med Ludwig
               <svg

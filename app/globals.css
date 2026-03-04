@@ -38,9 +38,116 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   --font-serif: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+
+  /* Semantic Colors with Opacity Variants */
+  --color-primary: #8b5cf6;
+  --color-primary-05: rgba(139, 92, 246, 0.05);
+  --color-primary-10: rgba(139, 92, 246, 0.1);
+  --color-primary-15: rgba(139, 92, 246, 0.15);
+  --color-primary-20: rgba(139, 92, 246, 0.22);
+  --color-primary-30: rgba(139, 92, 246, 0.3);
+  --color-primary-32: rgba(139, 92, 246, 0.32);
+  --color-primary-40: rgba(139, 92, 246, 0.45);
+  --color-primary-60: rgba(139, 92, 246, 0.6);
+  --color-primary-glow: rgba(139, 92, 246, 0.5);
+
+  --color-glass-light: rgba(255, 255, 255, 0.06);
+  --color-glass-lighter: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Typography Scale (1.25x multiplier) */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5625rem;
+  --font-2xl: 1.953rem;
+  --font-3xl: 2.441rem;
+  --font-4xl: 3.052rem;
+  --font-5xl: 3.815rem;
+  --font-6xl: 4.768rem;
+
+  /* Font Weight System */
+  --fw-light: 300;
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Spacing Scale (4px base) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
 }
 
-/* Smooth scroll */
+/* ─── TYPOGRAPHY UTILITIES ─────────────────────────────────────────── */
+.h1 {
+  font-size: var(--font-6xl);
+  font-weight: var(--fw-light);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.h2 {
+  font-size: var(--font-4xl);
+  font-weight: var(--fw-light);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.h3 {
+  font-size: var(--font-2xl);
+  font-weight: var(--fw-light);
+  line-height: 1.3;
+}
+
+.text-label {
+  font-size: var(--font-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ─── SPACING UTILITIES ────────────────────────────────────────────── */
+.section-padding {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+}
+
+.card-grid {
+  gap: var(--space-lg);
+}
+
+.card-spacing {
+  padding: var(--space-2xl);
+}
+
+/* ─── COLOR UTILITIES ──────────────────────────────────────────────── */
+.bg-primary-glass {
+  background-color: var(--color-primary-20);
+}
+
+.border-primary {
+  border-color: var(--color-primary-40);
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ─── SMOOTH SCROLL ────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -178,6 +285,62 @@ body {
 .animate-fade-in-delay-5 {
   opacity: 0;
   animation: fade-in 0.8s ease-out 1s forwards;
+}
+
+/* ─── ENTRANCE ANIMATIONS ──────────────────────────────────────────── */
+@keyframes entrance-fade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-entrance {
+  animation: entrance-fade 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-entrance-1 {
+  animation-delay: 0.1s;
+}
+
+.animate-entrance-2 {
+  animation-delay: 0.2s;
+}
+
+.animate-entrance-3 {
+  animation-delay: 0.3s;
+}
+
+.animate-entrance-4 {
+  animation-delay: 0.4s;
+}
+
+/* ─── INTERACTIVE MICRO-INTERACTIONS ──────────────────────────────── */
+@keyframes button-hover-lift {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-4px) scale(1.01);
+  }
+}
+
+.interactive-hover {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.interactive-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px var(--color-primary-glow);
+}
+
+.interactive-hover:active {
+  transform: translateY(-2px);
 }
 
 /* Solutions: Custom block glow pulse — opacity-based for GPU compositing */

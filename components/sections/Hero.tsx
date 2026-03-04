@@ -310,7 +310,7 @@ export default function Hero() {
           {/* 1. Heading */}
           <h1
             ref={headerRef}
-            className="text-left lg:text-center text-[38px] sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-extralight leading-[1.2] lg:leading-[1.08] tracking-tight text-white max-w-3xl"
+            className="h1 text-left lg:text-center text-white max-w-3xl"
           >
             Mindre manuellt arbete. Fler affärer. På plats på 4 veckor.
           </h1>

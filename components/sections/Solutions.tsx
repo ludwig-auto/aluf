@@ -195,7 +195,7 @@ function SolutionCard({
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 mt-4 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+            className="inline-flex items-center card-grid px-4 py-2 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover mt-4 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
           >
             Diskutera er utmaning
             <svg
@@ -324,7 +324,7 @@ export default function Solutions() {
                 href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                className="inline-flex items-center card-grid px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
               >
                 Diskutera ert projekt
                 <ArrowRight

@@ -31,10 +31,11 @@ export const GlassButton = React.forwardRef<HTMLAnchorElement | HTMLButtonElemen
       "rounded-full",
       "font-medium tracking-tight",
       "transition-colors duration-200",
+      "interactive-hover",
       "focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
       sizeMap[size],
       variant === "primary"
-        ? "bg-violet-500/20 border border-violet-400/40 text-white hover:bg-violet-500/30 hover:border-violet-400/60"
+        ? "bg-primary-glass border border-primary text-white hover:bg-violet-500/30 hover:border-violet-400/60 active:shadow-[0_0_30px_rgba(139,92,246,0.6)]"
         : "text-white/80 border border-transparent hover:bg-white/5",
       className
     );
