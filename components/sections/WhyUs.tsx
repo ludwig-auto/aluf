@@ -66,16 +66,16 @@ function WhyUsCard({ Icon, title, description, reduced }: { Icon: typeof Zap; ti
           setHovered(true);
         }}
         onMouseLeave={() => setHovered(false)}
-        className="relative rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 md:p-8 overflow-hidden transition-all duration-300 hover:border-violet-500/20"
+        className="relative rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 md:p-8 overflow-hidden transition-all duration-300 hover:border-violet-500/20 h-full flex flex-col"
       >
         {/* Cursor-follow glow */}
         {!reduced && (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-200"
             style={{
               opacity: hovered ? 1 : 0,
-              background: `radial-gradient(250px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.06), transparent 70%)`,
+              background: `radial-gradient(200px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.15), rgba(139,92,246,0.04) 50%, transparent 70%)`,
             }}
           />
         )}
@@ -120,7 +120,7 @@ export default function WhyUs() {
         </motion.div>
 
         <motion.div
-          className="grid md:grid-cols-2 gap-x-12 gap-y-8 md:gap-y-10"
+          className="grid md:grid-cols-2 gap-6 md:gap-8"
           variants={shouldReduceMotion ? undefined : containerVariants}
           initial={shouldReduceMotion ? undefined : "hidden"}
           whileInView="visible"
