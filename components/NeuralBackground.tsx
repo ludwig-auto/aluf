@@ -157,7 +157,6 @@ const fragmentShader = `
 `;
 
 function ShaderPlane() {
-  const meshRef = useRef<THREE.Mesh>(null!);
   const materialRef = useRef<THREE.ShaderMaterial>(null!);
 
   const material = useMemo(() => {
@@ -172,6 +171,8 @@ function ShaderPlane() {
     });
   }, []);
 
+  materialRef.current = material;
+
   useFrame((state) => {
     if (!materialRef.current) return;
     materialRef.current.uniforms.iTime.value = state.clock.elapsedTime;
@@ -180,7 +181,7 @@ function ShaderPlane() {
   });
 
   return (
-    <mesh ref={meshRef} position={[0, -0.75, -0.5]} material={material}>
+    <mesh position={[0, -0.75, -0.5]} material={material}>
       <planeGeometry args={[6, 4]} />
     </mesh>
   );

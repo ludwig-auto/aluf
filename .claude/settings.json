@@ -13,7 +13,8 @@
       "Bash(convert public/logos/swedish-cold.png -quality 70 public/logos/swedish-cold.avif)",
       "Bash(node convert-images.js)",
       "Bash(svgo public/logos/*.svg --multipass)",
-      "Bash(git add -A)"
+      "Bash(git add -A)",
+      "Bash(git commit:*)"
     ]
   }
 }

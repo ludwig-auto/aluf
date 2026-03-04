@@ -59,9 +59,9 @@ export default function Footer() {
                   href="https://www.linkedin.com/in/ludwig-a-automationsludwig/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all flex items-center gap-2 relative border-b border-transparent hover:border-violet-400/50"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all flex items-center gap-2 relative border-b border-transparent hover:border-violet-400/50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                 >
-                  <LinkedinIcon className="w-3.5 h-3.5" />
+                  <LinkedinIcon className="w-3.5 h-3.5" aria-hidden="true" />
                   LinkedIn
                 </a>
               </li>
@@ -83,7 +83,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/integritetspolicy"
-                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                 >
                   Integritetspolicy
                 </a>
@@ -91,7 +91,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/villkor"
-                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                 >
                   Villkor
                 </a>
@@ -99,7 +99,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/cookie-policy"
-                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50"
+                  className="text-sm text-white/50 font-light hover:text-violet-400 transition-all relative border-b border-transparent hover:border-violet-400/50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                 >
                   Cookie-policy
                 </a>
