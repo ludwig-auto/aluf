@@ -52,7 +52,7 @@ export default function Navbar() {
           border: scrolled
             ? "0.5px solid rgba(255,255,255,0.13)"
             : "0.5px solid rgba(255,255,255,0.06)",
-          overflow:     "hidden",
+          overflow:     mobileOpen ? "visible" : "hidden",
           transition:   "background 0.5s ease, border-color 0.5s ease, border-radius 0.3s ease-in-out",
         }}
       >
