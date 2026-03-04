@@ -100,10 +100,10 @@ function FAQItem({
         {!reduced && (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-200"
             style={{
               opacity: hovered ? 1 : 0,
-              background: `radial-gradient(250px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.06), transparent 70%)`,
+              background: `radial-gradient(200px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.15), rgba(139,92,246,0.04) 50%, transparent 70%)`,
             }}
           />
         )}

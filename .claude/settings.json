@@ -14,7 +14,12 @@
       "Bash(node convert-images.js)",
       "Bash(svgo public/logos/*.svg --multipass)",
       "Bash(git add -A)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git add components/sections/)",
+      "Bash(git add components/sections/Footer.tsx)",
+      "Bash(git add components/sections/Process.tsx)",
+      "Bash(git add components/sections/FeaturedCase.tsx)",
+      "Bash(git add components/sections/WhyUs.tsx)"
     ]
   }
 }
