@@ -4,9 +4,9 @@ export default function Footer() {
   return (
     <footer className="py-10 bg-black border-t border-white/5">
       <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
-        <div className="grid md:grid-cols-4 gap-8 md:gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-8">
           {/* Brand */}
-          <div className="md:col-span-1">
+          <div className="col-span-2 md:col-span-1">
             <p className="text-base font-light tracking-tight text-white mb-2">
               Automations<span className="text-violet-500">Ludwig</span>
             </p>
@@ -23,8 +23,8 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {[
                 { label: "Lösningar", href: "#solutions" },
+                { label: "Case", href: "#case" },
                 { label: "Process", href: "#process" },
-                { label: "Team", href: "#team" },
                 { label: "FAQ", href: "#faq" },
               ].map((link) => (
                 <li key={link.label}>
@@ -67,8 +67,8 @@ export default function Footer() {
               </li>
               <li>
                 <span className="text-sm text-white/50 font-light flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5" />
-                  Stockholm, Sverige
+                  <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
+                  Stockholm
                 </span>
               </li>
             </ul>
