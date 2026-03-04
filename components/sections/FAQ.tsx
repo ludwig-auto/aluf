@@ -113,7 +113,7 @@ function FAQItem({
           onClick={() => onToggle(index)}
           aria-expanded={isOpen}
           aria-controls={`faq-answer-${index}`}
-          className="relative z-10 w-full text-left px-4 py-3 md:p-5"
+          className="relative z-10 w-full text-left px-4 py-3 md:p-5 rounded-2xl focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
         >
           <div className="flex items-center justify-between gap-4">
             <span className="text-sm md:text-base font-light text-white/90 group-hover:text-white transition-colors">

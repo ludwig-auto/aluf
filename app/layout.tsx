@@ -322,7 +322,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-black focus:text-white">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-black focus:text-white focus:outline-2 focus:outline-violet-400 focus:outline-offset-2">
           Hoppa till innehåll
         </a>
         {children}
