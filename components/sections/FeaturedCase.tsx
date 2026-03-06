@@ -49,8 +49,8 @@ function DataStream({
               i % 3 === 0
                 ? "rgba(139,92,246,0.7)"
                 : i % 3 === 1
-                ? "rgba(255,255,255,0.2)"
-                : "rgba(139,92,246,0.4)",
+                  ? "rgba(255,255,255,0.2)"
+                  : "rgba(139,92,246,0.4)",
             width: visible ? w : 0,
             opacity: visible ? 1 : 0,
             transition: flyInDone
@@ -83,10 +83,31 @@ function StatCard({
   triggered: boolean;
   reduced: boolean;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const [pulsing, setPulsing] = useState(false);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
   const hasRun = useRef(false);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }
+
+  function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (rect) setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    setHovered(true);
+  }
+
+  function handleMouseLeave() {
+    setHovered(false);
+  }
 
   // Reduced motion: show final value immediately
   useEffect(() => {
@@ -155,18 +176,33 @@ function StatCard({
 
   return (
     <motion.div
-      className="px-4 py-5 rounded-2xl border border-white/[0.07] bg-white/[0.03] hover:border-violet-500/20 flex flex-col transition-colors duration-300"
+      ref={cardRef}
+      className="relative px-4 py-5 rounded-2xl border border-violet-500/30 bg-white/[0.03] hover:border-violet-500/50 flex flex-col transition-colors duration-300 overflow-hidden"
       initial={reduced ? undefined : { opacity: 0, y: 16 }}
       animate={triggered ? { opacity: 1, y: 0 } : undefined}
       transition={{
         opacity: { duration: 0.5, delay: reduced ? 0 : staggerDelay },
         y: { duration: 0.5, ease: "easeOut" as const, delay: reduced ? 0 : staggerDelay },
       }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <dt className="text-[10px] text-white/50 uppercase tracking-[0.12em] font-semibold order-2">
+      {/* Cursor-follow spotlight — glows when near or on card */}
+      {!reduced && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-150"
+          style={{
+            opacity: hovered ? 1 : 0,
+            background: `radial-gradient(200px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.3), rgba(139,92,246,0.1) 50%, transparent 80%)`,
+          }}
+        />
+      )}
+      <dt className="relative z-10 text-[10px] text-white/50 uppercase tracking-[0.12em] font-semibold order-2">
         {label}
       </dt>
-      <dd className="text-xl md:text-2xl font-semibold tracking-tight text-white mb-1 whitespace-nowrap order-1">
+      <dd className="relative z-10 text-xl md:text-2xl font-semibold tracking-tight text-white mb-1 order-1">
         {displayed}
         {suffix}
       </dd>
@@ -176,10 +212,10 @@ function StatCard({
 
 // ─── Sprint milestones for timeline ────────────────────────────────────────────
 const MILESTONES = [
-  { day: "Dag 1",  label: "Discovery Call"  },
+  { day: "Dag 1", label: "Discovery Call" },
   { day: "Dag 14", label: "System Live" },
   { day: "Dag 21", label: "Första mötena" },
-  { day: "Dag 28", label: "120k ROI",    accent: true },
+  { day: "Dag 28", label: "120k ROI", accent: true },
 ];
 
 // ─── FeaturedCase ──────────────────────────────────────────────────────────────
@@ -203,16 +239,16 @@ export default function FeaturedCase() {
     reduced
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true },
-          transition: { duration: 0.55, ease: "easeOut" as const, delay },
-        };
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.55, ease: "easeOut" as const, delay },
+      };
 
   return (
     <section
       ref={sectionRef}
-      className="pt-12 pb-20 md:pt-16 md:pb-24 bg-black relative overflow-hidden"
+      className="py-16 md:py-24 bg-black relative overflow-hidden"
       id="case"
       aria-labelledby="case-heading"
     >
@@ -235,7 +271,7 @@ export default function FeaturedCase() {
           {...fadeUp()}
         >
           <div className="flex flex-col gap-2.5">
-            <span className="text-[9px] font-semibold tracking-[0.4em] text-[#7C5CBF]/70 uppercase">
+            <span className="text-[9px] font-semibold tracking-[0.4em] text-violet-400/80 uppercase">
               Case study
             </span>
             <h2 id="case-heading" className="sr-only">
@@ -250,17 +286,17 @@ export default function FeaturedCase() {
               priority={false}
               loading="lazy"
             />
-            <p className="text-[11px] text-[#8888AA] font-light tracking-wide">
+            <p className="text-[11px] text-white/55 font-light tracking-wide">
               B2B-sälj · AI-outreach
             </p>
           </div>
         </motion.div>
 
         {/* ─── Main 2-col layout ───────────────────────────────────── */}
-        <div className="grid lg:grid-cols-[55fr_45fr] items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           {/* LEFT: 120k + DataStream + stats */}
-          <div className="lg:pr-14 xl:pr-20">
+          <div>
 
             {/* Big number + DataStream */}
             <div className="mb-8 md:mb-10">
@@ -288,106 +324,104 @@ export default function FeaturedCase() {
             {/* Stats — 3-col with violet left-accent strip */}
             <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
               {[
-                { label: "Direkt ROI",  value: 120,     suffix: "k SEK",  from: 80  },
-                { label: "Pipeline",    value: 500,     suffix: "k+ SEK", from: 400 },
-                { label: "Möten/mån",   value: "15–20", suffix: ""                  },
+                { label: "Direkt ROI", value: 120, suffix: "k SEK", from: 80 },
+                { label: "Pipeline", value: 500, suffix: "k+ SEK", from: 400 },
+                { label: "Möten/mån", value: "15–20", suffix: "" },
               ].map((stat, i) => (
-                <div key={stat.label} className="relative pl-[3px]">
-                  <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-violet-500/35" />
-                  <StatCard
-                    label={stat.label}
-                    value={stat.value}
-                    suffix={stat.suffix}
-                    from={stat.from as number | undefined}
-                    staggerDelay={0.3 + i * 0.1}
-                    triggered={hasTriggered}
-                    reduced={reduced}
-                  />
-                </div>
+                <StatCard
+                  key={stat.label}
+                  label={stat.label}
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  from={stat.from as number | undefined}
+                  staggerDelay={0.3 + i * 0.1}
+                  triggered={hasTriggered}
+                  reduced={reduced}
+                />
               ))}
             </dl>
 
           </div>
 
           {/* RIGHT: Timeline + Story — styled box with highlight */}
-          <div className="mt-14 lg:mt-0 lg:pl-14 xl:pl-20 lg:p-6 lg:rounded-2xl lg:border border-white/[0.07] bg-white/[0.03] hover:border-violet-500/20">
+          <div className="mt-14 lg:mt-0 lg:p-6 lg:rounded-2xl lg:border border-white/[0.07] bg-white/[0.03] hover:border-violet-500/20">
 
             {/* Timeline */}
             <motion.div className="mb-10 md:mb-14" {...fadeUp(0.15)}>
-              <p className="text-[9px] font-semibold tracking-[0.35em] text-[#8888AA]/60 uppercase mb-3">
+              <p className="text-[9px] font-semibold tracking-[0.35em] text-white/40 uppercase mb-3">
                 28-dagars sprint
               </p>
-              <div className="relative">
-                {/* Track base */}
-                <div className="absolute top-[6px] left-0 right-0 h-px bg-white/[0.06]" />
+              <div className="pb-4 sm:overflow-x-auto sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 [&::-webkit-scrollbar]:hidden">
+                <div className="relative sm:min-w-[480px] lg:min-w-0 pt-6">
+                  {/* Track base */}
+                  <div className="absolute top-[30px] left-0 right-0 h-px bg-white/[0.06]" />
 
-                {/* Animated gradient fill */}
-                {hasTriggered && !reduced && (
-                  <motion.div
-                    className="absolute top-[6px] left-0 h-px"
-                    style={{
-                      background:
-                        "linear-gradient(to right, rgba(255,255,255,0.08) 0%, rgba(139,92,246,0.45) 55%, rgba(139,92,246,0.85) 100%)",
-                    }}
-                    initial={{ width: 0 }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 1.6, ease: "easeOut", delay: 0.6 }}
-                  />
-                )}
-
-                {/* Milestone dots + labels */}
-                <div className="flex justify-between">
-                  {MILESTONES.map((m, i) => (
+                  {/* Animated gradient fill */}
+                  {hasTriggered && !reduced && (
                     <motion.div
-                      key={m.day}
-                      className="flex flex-col items-center gap-3"
-                      initial={reduced ? undefined : { opacity: 0, y: 8 }}
-                      animate={hasTriggered ? { opacity: 1, y: 0 } : undefined}
-                      transition={{ delay: 0.6 + i * 0.32, duration: 0.45 }}
-                    >
-                      {/* Dot */}
-                      {m.accent ? (
-                        <div className="relative flex items-center justify-center w-4 h-4">
-                          {/* Soft glow */}
-                          <div className="absolute w-8 h-8 bg-violet-500/40 blur-[10px] rounded-full" />
-                          {/* Pulsing ring */}
-                          {hasTriggered && !reduced && (
-                            <motion.div
-                              className="absolute w-4 h-4 rounded-full bg-violet-400/50"
-                              animate={{ scale: [1, 2.4, 1], opacity: [0.6, 0, 0.6] }}
-                              transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                                delay: 1.7,
-                              }}
-                            />
-                          )}
-                          <div className="w-4 h-4 rounded-full bg-violet-400 relative z-10" />
-                        </div>
-                      ) : (
-                        <div className="w-4 h-4 rounded-full border-2 border-white/40 bg-white/[0.05]" />
-                      )}
+                      className="absolute top-[30px] left-0 h-px"
+                      style={{
+                        background:
+                          "linear-gradient(to right, rgba(255,255,255,0.08) 0%, rgba(139,92,246,0.45) 55%, rgba(139,92,246,0.85) 100%)",
+                      }}
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 1.6, ease: "easeOut", delay: 0.6 }}
+                    />
+                  )}
 
-                      {/* Labels */}
-                      <div className="flex flex-col items-center gap-1.5 text-center">
-                        <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${
-                          m.accent ? "text-white/60" : "text-white/40"
-                        }`}>
-                          {m.day}
-                        </span>
-                        <span
-                          className={`text-[12px] ${
-                            m.accent
+                  {/* Milestone dots + labels */}
+                  <div className="flex justify-between">
+                    {MILESTONES.map((m, i) => (
+                      <motion.div
+                        key={m.day}
+                        className="flex flex-col items-center gap-3"
+                        initial={reduced ? undefined : { opacity: 0, y: 8 }}
+                        animate={hasTriggered ? { opacity: 1, y: 0 } : undefined}
+                        transition={{ delay: 0.6 + i * 0.32, duration: 0.45 }}
+                      >
+                        {/* Dot */}
+                        {m.accent ? (
+                          <div className="relative flex items-center justify-center w-4 h-4">
+                            {/* Soft glow */}
+                            <div className="absolute w-8 h-8 bg-violet-500/40 blur-[10px] rounded-full" />
+                            {/* Pulsing ring */}
+                            {hasTriggered && !reduced && (
+                              <motion.div
+                                className="absolute w-4 h-4 rounded-full bg-violet-400/50"
+                                animate={{ scale: [1, 2.4, 1], opacity: [0.6, 0, 0.6] }}
+                                transition={{
+                                  duration: 2,
+                                  repeat: Infinity,
+                                  ease: "easeInOut",
+                                  delay: 1.7,
+                                }}
+                              />
+                            )}
+                            <div className="w-4 h-4 rounded-full bg-violet-400 relative z-10" />
+                          </div>
+                        ) : (
+                          <div className="w-4 h-4 rounded-full border-2 border-white/40 bg-white/[0.05]" />
+                        )}
+
+                        {/* Labels */}
+                        <div className="flex flex-col items-center gap-1.5 text-center">
+                          <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${m.accent ? "text-white/60" : "text-white/40"
+                            }`}>
+                            {m.day}
+                          </span>
+                          <span
+                            className={`text-[12px] ${m.accent
                               ? "font-semibold text-white"
                               : "font-light text-white/70"
-                          }`}
-                        >
-                          {m.label}
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
+                              }`}
+                          >
+                            {m.label}
+                          </span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -395,12 +429,10 @@ export default function FeaturedCase() {
             {/* Story */}
             <motion.div {...fadeUp(0.25)}>
               <h3 className="text-[1.1rem] md:text-[1.25rem] font-semibold text-white mb-3 leading-snug tracking-tight">
-                Från 0 till 15 möten i månaden. På 28 dagar.
+                Från mötesbokning till closing.
               </h3>
-              <p className="text-sm md:text-[15px] text-white/50 font-light leading-relaxed max-w-[400px]">
-                Swedish Colds säljare lade sin tid på att boka möten, inte på att
-                stänga dem. Jag byggde ett AI-emailsystem som sköter prospektering
-                och uppföljning automatiskt. Nu sitter säljarna på closing.
+              <p className="text-sm md:text-[15px] text-white/60 font-light leading-relaxed max-w-[400px]">
+                <span className="text-white/70 font-medium">Innan:</span> Säljare slösade timmar på mötesbokning och uppföljning. <span className="text-white/70 font-medium">Efter:</span> AI-systemet hanterar prospektering automatiskt. Säljarna gör det de är bäst på – stänga affärer.
               </p>
             </motion.div>
 

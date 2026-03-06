@@ -1,0 +1,50 @@
+[     258ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3050/ludwig.jpg:0
+[    1512ms] [WARNING] Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    4572ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1216957ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1824171ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1824864ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3050/ludwig.jpg:0
+[ 1825112ms] [WARNING] Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1828136ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1830530ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1830776ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3050/ludwig.jpg:0
+[ 1830961ms] [WARNING] Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1834000ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1837716ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1838022ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3050/ludwig.jpg:0
+[ 1838201ms] [WARNING] Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1841215ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1847472ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1847877ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3050/ludwig.jpg:0
+[ 1848115ms] [WARNING] Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1851129ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1858167ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0
+[ 1866794ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0

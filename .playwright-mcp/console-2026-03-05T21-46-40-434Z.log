@@ -1,0 +1,2 @@
+[    1264ms] [WARNING] Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly. @ http://localhost:3050/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    4291ms] [WARNING] The resource http://localhost:3050/favicon.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3050/:0

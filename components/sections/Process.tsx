@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Search, Hammer, Rocket, RefreshCw } from "lucide-react";
+import { Search, Hammer, Rocket, RefreshCw, ArrowRight } from "lucide-react";
 import {
   motion,
   useReducedMotion,
@@ -251,6 +251,7 @@ export default function Process() {
       ref={sectionRef}
       className="py-16 md:py-24 bg-[#040407] overflow-hidden"
       id="process"
+      aria-labelledby="process-heading"
     >
       <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         {/* Header */}
@@ -261,7 +262,7 @@ export default function Process() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: "easeOut" as const }}
         >
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-[-0.03em] text-white mb-3">
+          <h2 id="process-heading" className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-[-0.03em] text-white mb-3">
             Från första samtal till{" "}
             <span className="font-light text-white/90">
               mätbara resultat
@@ -340,10 +341,10 @@ export default function Process() {
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center card-grid px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
           >
             Starta med ett gratis samtal
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200 shrink-0" style={{ transform: "translateZ(0)" }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200 shrink-0" aria-hidden="true" />
           </a>
         </motion.div>
       </div>

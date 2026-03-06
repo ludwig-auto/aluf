@@ -19,7 +19,11 @@
       "Bash(git add components/sections/Footer.tsx)",
       "Bash(git add components/sections/Process.tsx)",
       "Bash(git add components/sections/FeaturedCase.tsx)",
-      "Bash(git add components/sections/WhyUs.tsx)"
+      "Bash(git add components/sections/WhyUs.tsx)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_snapshot"
     ]
   }
 }

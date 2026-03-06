@@ -29,6 +29,11 @@ const WhyUs = dynamic(() => import("@/components/sections/WhyUs"), {
   loading: () => <SkeletonLoader height="h-64" />,
 });
 
+const RoiCalculator = dynamic(() => import("@/components/sections/RoiCalculator"), {
+  ssr: true,
+  loading: () => <SkeletonLoader height="h-96" />,
+});
+
 const Process = dynamic(() => import("@/components/sections/Process"), {
   ssr: true,
   loading: () => <SkeletonLoader height="h-96" />,
@@ -59,6 +64,7 @@ export default function Home() {
         <Solutions />
         <FeaturedCase />
         <WhyUs />
+        <RoiCalculator />
         <Process />
         <Team />
         <FAQ />

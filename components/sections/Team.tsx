@@ -1,6 +1,7 @@
 "use client";
 
-import { LinkedinIcon, Mail } from "lucide-react";
+import Image from "next/image";
+import { Linkedin as LinkedInIcon, Mail, ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 export default function Team() {
@@ -17,10 +18,10 @@ export default function Team() {
         };
 
   return (
-    <section className="py-16 md:py-24 bg-black" id="team">
+    <section className="py-16 md:py-24 bg-black" id="team" aria-labelledby="team-heading">
       <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div className="mb-10" {...fadeUp()}>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight text-white">
+          <h2 id="team-heading" className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-[-0.03em] text-white">
             Du jobbar alltid med{" "}
             <span className="font-light text-white/90">
               samma person
@@ -35,11 +36,13 @@ export default function Team() {
             {...fadeUp(0.1)}
           >
             <div className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden ring-2 ring-violet-500/20">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/ludwig.jpg"
+              <Image
+                src="/ludwig.jpeg"
                 alt="Ludwig Andersson"
+                width={112}
+                height={112}
                 className="w-full h-full object-cover object-top"
+                loading="lazy"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -47,17 +50,17 @@ export default function Team() {
                 href="https://www.linkedin.com/in/ludwig-a-automationsludwig/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn-profil"
-                className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-violet-500/20 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                aria-label="LinkedIn-profil (öppnas i nytt fönster)"
+                className="w-11 h-11 rounded-lg bg-white/5 flex items-center justify-center hover:bg-violet-500/20 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
               >
-                <LinkedinIcon className="w-4 h-4 text-white/40 hover:text-violet-400 transition-colors" aria-hidden="true" />
+                <LinkedInIcon className="w-4 h-4 text-white/60 hover:text-violet-400 transition-colors" aria-hidden="true" />
               </a>
               <a
                 href="mailto:ludwig@automationsludwig.com"
-                aria-label="Skicka e-post"
-                className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-violet-500/20 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                aria-label="Skicka e-post till ludwig@automationsludwig.com"
+                className="w-11 h-11 rounded-lg bg-white/5 flex items-center justify-center hover:bg-violet-500/20 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
               >
-                <Mail className="w-4 h-4 text-white/40 hover:text-violet-400 transition-colors" aria-hidden="true" />
+                <Mail className="w-4 h-4 text-white/60 hover:text-violet-400 transition-colors" aria-hidden="true" />
               </a>
             </div>
           </motion.div>
@@ -95,25 +98,10 @@ export default function Team() {
 
             <a
               href="#contact"
-              className="inline-flex items-center card-grid px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
             >
               Prata direkt med Ludwig
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                className="group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200 shrink-0"
-                style={{ transform: "translateZ(0)" }}
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 transition-transform duration-200 shrink-0" aria-hidden="true" />
             </a>
           </motion.div>
         </div>

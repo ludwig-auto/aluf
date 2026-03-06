@@ -2,6 +2,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 @theme inline {
   --color-background: #000000;
   --color-foreground: #f8fafc;
@@ -334,9 +339,11 @@ body {
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.interactive-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 20px var(--color-primary-glow);
+@media (hover: hover) {
+  .interactive-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px var(--color-primary-glow);
+  }
 }
 
 .interactive-hover:active {
@@ -383,6 +390,11 @@ body {
 }
 
 /* Solutions: Highlight pill shimmer */
+@keyframes blackFlash {
+  0%   { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
 @keyframes sol-shimmer {
   from { transform: translateX(-100%); }
   to   { transform: translateX(250%); }

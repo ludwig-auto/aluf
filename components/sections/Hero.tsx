@@ -84,8 +84,7 @@ function MobileProofCard() {
             width={120}
             height={24}
             style={{ height: "auto", width: "auto", filter: "brightness(0) invert()" }}
-            priority={false}
-            loading="lazy"
+            priority={true}
           />
         </div>
 
@@ -139,7 +138,7 @@ function MobileProofCard() {
                 marginBottom: 4,
               }}
             >
-              14 dagar
+              30 dagar
             </p>
             <p
               style={{
@@ -166,7 +165,7 @@ function MobileProofCard() {
             <span
               style={{
                 fontSize: 9,
-                color: "rgba(255,255,255,0.25)",
+                color: "rgba(255,255,255,0.40)",
                 textTransform: "uppercase",
                 letterSpacing: "0.14em",
               }}
@@ -302,40 +301,42 @@ export default function Hero() {
         <NeuralBackground />
       </BackgroundErrorBoundary>
 
-      <div className="relative mx-auto max-w-5xl px-6 pt-20 pb-16 sm:pt-24 md:pt-36 md:pb-28 md:px-10 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-6 pt-32 pb-20 sm:pt-36 md:pt-40 md:pb-32 md:px-10 lg:px-16">
 
         {/* ── Content column — natural HTML order, no CSS reordering ── */}
-        <div className="flex flex-col items-start lg:items-center gap-4 sm:gap-5 md:gap-6 lg:gap-8">
+        <div className="flex flex-col items-center gap-6 sm:gap-7 md:gap-8 lg:gap-10">
 
           {/* 1. Heading */}
           <h1
             ref={headerRef}
-            className="text-left lg:text-center text-white max-w-3xl text-[2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.768rem] font-light tracking-[-0.03em] leading-[1.1]"
+            className="text-center text-white max-w-3xl font-light tracking-[-0.03em] leading-[1.15] lg:leading-[1.1] text-balance mb-1 lg:mb-0"
+            style={{
+              fontSize: "clamp(1.75rem, 7vw, 4.768rem)",
+            }}
           >
-            Mindre manuellt arbete. Fler affärer. På plats på 4 veckor.
+            Mindre manuellt arbete. Fler affärer.
           </h1>
 
           {/* 2. Subtext */}
           <p
             ref={paraRef}
-            className="text-sm sm:text-[15px] lg:text-base text-left lg:text-center font-light leading-[1.5] lg:leading-relaxed tracking-tight text-white/60 max-w-full lg:max-w-lg"
+            className="text-[0.875rem] sm:text-[0.9375rem] lg:text-base text-center font-light leading-[1.65] lg:leading-[1.75] tracking-tight text-white/60 max-w-[85%] sm:max-w-md lg:max-w-lg text-balance lg:text-wrap"
           >
-            <span>Jag bygger AI-chattbotar, emailsystem, interna automationer och skräddarsydda appar för bolag som vill växa utan att anställa fler.</span>
-            <span className="hidden lg:inline"> Swedish Cold fick 120k SEK i direkt ROI på 14 dagar.</span>
+            AI-agenter och automationssystem för B2B-bolag med repetitiva processer som stjäl säljtid.
           </p>
 
           {/* 3. CTA button */}
-          <div ref={ctaRef} className="w-full lg:w-auto flex items-stretch lg:items-center gap-3">
+          <div ref={ctaRef} className="w-full lg:w-auto mt-4 lg:mt-0 flex flex-col sm:flex-row items-center gap-4">
             <GlassButton
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               variant="primary"
-              className="w-full lg:w-auto justify-center text-[15px] lg:text-sm py-3 px-6"
+              className="w-full sm:w-auto justify-center text-[15px] lg:text-sm py-[18px] px-8"
               contentClassName="gap-2"
             >
               Se vad som stjäl er tid
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5 shrink-0" style={{ transform: "translateZ(0)" }} aria-hidden="true" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-1.5 shrink-0" aria-hidden="true" />
             </GlassButton>
           </div>
 
@@ -343,28 +344,30 @@ export default function Hero() {
           <a
             ref={linkRef}
             href="#case"
-            className="block w-full text-center lg:w-auto lg:text-left text-[14px] lg:text-sm font-light text-white/65 hover:text-violet-400 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+            className="inline-block mt-[-8px] lg:mt-[-16px] text-center text-[13px] lg:text-sm font-light text-white/50 hover:text-violet-400 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
           >
             Se hur jag gjorde det för Swedish Cold →
           </a>
 
-          {/* 5. Trust badges — scrollable on mobile, centered on desktop */}
-          <ul
-            className="flex flex-nowrap lg:flex-wrap lg:justify-center overflow-x-auto gap-2 lg:gap-3 text-xs font-extralight tracking-tight text-white/60 w-full pb-1 [&::-webkit-scrollbar]:hidden"
-          >
-            <li ref={badgeItem1Ref} className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-[10px] py-[6px] whitespace-nowrap backdrop-blur-sm">
-              <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> Leverans på 4–6 veckor
-            </li>
-            <li ref={badgeItem2Ref} className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-[10px] py-[6px] whitespace-nowrap backdrop-blur-sm">
-              <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> GDPR-compliant
-            </li>
-            <li ref={badgeItem3Ref} className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-[10px] py-[6px] whitespace-nowrap backdrop-blur-sm">
-              <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> EU-baserade dataservrar
-            </li>
-            <li ref={badgeItem4Ref} className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-[10px] py-[6px] whitespace-nowrap backdrop-blur-sm">
-              <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> Stockholm-baserad
-            </li>
-          </ul>
+          {/* 5. Trust badges — wrapped and centered on all screens */}
+          <div className="w-full mt-6 lg:mt-8">
+            <ul
+              className="flex flex-wrap justify-center gap-2 lg:gap-4 text-[11px] lg:text-xs font-extralight tracking-tight text-white/60 w-full"
+            >
+              <li ref={badgeItem1Ref} className="flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 whitespace-nowrap backdrop-blur-sm">
+                <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> 4–6 veckor
+              </li>
+              <li ref={badgeItem2Ref} className="flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 whitespace-nowrap backdrop-blur-sm">
+                <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> GDPR
+              </li>
+              <li ref={badgeItem3Ref} className="flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 whitespace-nowrap backdrop-blur-sm">
+                <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> EU-servrar
+              </li>
+              <li ref={badgeItem4Ref} className="flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 whitespace-nowrap backdrop-blur-sm">
+                <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-violet-400" /> Sthlm-baserad
+              </li>
+            </ul>
+          </div>
 
           {/* 6. Social proof card — removed from mobile version */}
 

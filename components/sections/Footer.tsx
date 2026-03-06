@@ -26,6 +26,7 @@ export default function Footer() {
                 { label: "Case", href: "#case" },
                 { label: "Process", href: "#process" },
                 { label: "FAQ", href: "#faq" },
+                { label: "Kontakt", href: "/kontakt" },
               ].map((link) => (
                 <li key={link.label}>
                   <a
@@ -114,7 +115,7 @@ export default function Footer() {
             &copy; 2026 AutomationsLudwig. Alla rättigheter förbehållna.
           </p>
           <p className="text-xs text-white/30">
-            Utvecklad i Sverige med ❤️
+            Utvecklad i Sverige
           </p>
         </div>
       </div>

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AutomationsLudwig | AI-automation för B2B-bolag i Stockholm",
     description:
-      "Säljautomatisering och processautomatisering för B2B-bolag i Stockholm. Mätbara resultat på 4–6 veckor. Swedish Cold: 120 000 kr ROI på 14 dagar.",
+      "Säljautomatisering och processautomatisering för B2B-bolag i Stockholm. Mätbara resultat på 4–6 veckor. Swedish Cold: 120 000 kr ROI på 28 dagar.",
     url: "https://automationsludwig.se",
     locale: "sv_SE",
     type: "website",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AutomationsLudwig | AI-automation för B2B-bolag i Stockholm",
     description:
-      "Säljautomatisering och processautomatisering för B2B-bolag i Stockholm. Mätbara resultat på 4–6 veckor. Swedish Cold: 120 000 kr ROI på 14 dagar.",
+      "Säljautomatisering och processautomatisering för B2B-bolag i Stockholm. Mätbara resultat på 4–6 veckor. Swedish Cold: 120 000 kr ROI på 28 dagar.",
   },
 };
 
@@ -49,15 +49,12 @@ const organizationJsonLd = {
     name: "Ludwig Andersson",
     url: "https://www.linkedin.com/in/ludwig-a-automationsludwig/",
   },
-  email: "ludwig@automationsludwig.se",
-  telephone: "+46",
+  email: "ludwig@automationsludwig.com",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Stockholm",
     addressRegion: "Stockholm",
     addressCountry: "SE",
-    postalCode: "171",
-    streetAddress: "Stockholm, Sweden",
   },
   geo: {
     "@type": "GeoCoordinates",
@@ -71,10 +68,6 @@ const organizationJsonLd = {
       name: "Stockholm",
     },
     {
-      "@type": "City",
-      name: "Sweden",
-    },
-    {
       "@type": "Country",
       name: "Sverige",
     },
@@ -84,7 +77,7 @@ const organizationJsonLd = {
     {
       "@type": "Service",
       name: "AI-agenter",
-      description: "Intelligenta automationssystem baserade på AI för att hantera komplexa affärsprocesser",
+      description: "Intelligenta automationssystem baserade på AI för att hantera komplexa affärsprocesser och ersätta manuella arbetsflöden",
     },
     {
       "@type": "Service",
@@ -105,11 +98,6 @@ const organizationJsonLd = {
       "@type": "Service",
       name: "CRM Integration",
       description: "Integration mellan olika CRM-system, automatiseringsplattformar och affärssystem",
-    },
-    {
-      "@type": "Service",
-      name: "AI-agenter",
-      description: "Custom AI-agenter för intern och extern automation",
     },
   ],
   offers: {
@@ -164,70 +152,24 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const caseStudyEventJsonLd = {
+const caseStudyArticleJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Event",
-  name: "Swedish Cold AI-outreach automation",
+  "@type": "Article",
+  headline: "Case study: Swedish Cold — 120 000 kr ROI på 28 dagar med AI-outreach",
   description:
-    "Case study: AI-drivet emailsystem som automatiserade prospektering och uppföljning för Swedish Cold, vilket resulterade i 15–20 möten per månad på 14 dagar.",
-  startDate: "2024-01-01",
-  endDate: "2024-01-14",
-  eventStatus: "EventScheduled",
-  eventAttendanceMode: "OnlineEventAttendanceMode",
-  location: {
-    "@type": "Place",
-    name: "Stockholm",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Stockholm",
-      addressCountry: "SE",
-    },
-  },
-  organizer: {
-    "@type": "Organization",
-    name: "AutomationsLudwig",
-    url: "https://automationsludwig.se",
-  },
-  performer: {
+    "AI-drivet emailsystem som automatiserade prospektering och uppföljning för Swedish Cold, vilket resulterade i 15–20 möten per månad och 120 000 kr i direkt ROI.",
+  datePublished: "2024-01-28",
+  url: "https://automationsludwig.se#case",
+  author: {
     "@type": "Person",
     name: "Ludwig Andersson",
     url: "https://www.linkedin.com/in/ludwig-a-automationsludwig/",
   },
-  potentialAction: [
-    {
-      "@type": "TradeAction",
-      name: "120k SEK direkta ROI",
-      description: "Direkt avkastning på investering inom 14 dagar",
-      result: {
-        "@type": "QuantitativeValue",
-        value: "120000",
-        currency: "SEK",
-      },
-    },
-    {
-      "@type": "TradeAction",
-      name: "15–20 möten per månad",
-      description: "Ökad säljpipeline från AI-driven prospektering",
-      result: {
-        "@type": "QuantitativeValue",
-        value: "15",
-        minValue: "15",
-        maxValue: "20",
-        unitText: "möten/månad",
-      },
-    },
-    {
-      "@type": "TradeAction",
-      name: "500k+ SEK pipeline",
-      description: "Total värde av genererade leads och möten",
-      result: {
-        "@type": "QuantitativeValue",
-        value: "500000",
-        currency: "SEK",
-        unitText: "SEK+",
-      },
-    },
-  ],
+  publisher: {
+    "@type": "Organization",
+    name: "AutomationsLudwig",
+    url: "https://automationsludwig.se",
+  },
 };
 
 const faqJsonLd = {
@@ -271,7 +213,7 @@ const faqJsonLd = {
       name: "Hur hanterar ni vår data enligt GDPR?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Ja. Jag kör på EU-baserade dataservrar och följer GDPR fullt ut. Jag kan redogöra för exakt hur data hanteras, inga luddiga svar.",
+        text: "Jag kör på EU-baserade dataservrar och följer GDPR fullt ut. Jag kan redogöra för exakt hur data hanteras, inga luddiga svar.",
       },
     },
     {
@@ -279,7 +221,7 @@ const faqJsonLd = {
       name: "Vad är förväntat ROI?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Det beror på var tidstjuvarna sitter. Swedish Cold såg 120 000 kr tillbaka på 14 dagar. Jag tar bara uppdrag jag tror kommer ge en tydlig avkastning. Om jag inte ser det, säger jag det i det första samtalet.",
+        text: "Det beror på var tidstjuvarna sitter. Swedish Cold såg 120 000 kr tillbaka på 30 dagar. Jag tar bara uppdrag jag tror kommer ge en tydlig avkastning. Om jag inte ser det, säger jag det i det första samtalet.",
       },
     },
     {
@@ -314,7 +256,7 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudyEventJsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudyArticleJsonLd).replace(/</g, "\\u003c") }}
         />
         <script
           type="application/ld+json"

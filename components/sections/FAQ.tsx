@@ -28,12 +28,12 @@ const faqItems = [
   {
     question: "Hur hanterar ni vår data enligt GDPR?",
     answer:
-      "Ja. Jag kör på EU-baserade dataservrar och följer GDPR fullt ut. Jag kan redogöra för exakt hur data hanteras, inga luddiga svar.",
+      "Jag kör på EU-baserade dataservrar och följer GDPR fullt ut. Jag kan redogöra för exakt hur data hanteras, inga luddiga svar.",
   },
   {
     question: "Vad är förväntat ROI?",
     answer:
-      "Det beror på var tidstjuvarna sitter. Swedish Cold såg 120 000 kr tillbaka på 14 dagar. Jag tar bara uppdrag jag tror kommer ge en tydlig avkastning. Om jag inte ser det, säger jag det i det första samtalet.",
+      "Det beror på var tidstjuvarna sitter. Swedish Cold såg 120 000 kr tillbaka på 30 dagar. Jag tar bara uppdrag jag tror kommer ge en tydlig avkastning. Om jag inte ser det, säger jag det i det första samtalet.",
   },
   {
     question: "Vad kostar det?",
@@ -113,18 +113,19 @@ function FAQItem({
           onClick={() => onToggle(index)}
           aria-expanded={isOpen}
           aria-controls={`faq-answer-${index}`}
-          className="relative z-10 w-full text-left px-4 py-3 md:p-5 rounded-2xl focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+          className="relative z-10 w-full text-left px-4 py-4 md:p-5 rounded-2xl focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
         >
           <div className="flex items-center justify-between gap-4">
             <span className="text-sm md:text-base font-light text-white/90 group-hover:text-white transition-colors">
               {item.question}
             </span>
             <div
-              className={`shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-300 ${
+              aria-hidden="true"
+              className={`shrink-0 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-300 ${
                 isOpen ? "rotate-45" : ""
               }`}
             >
-              <Plus className={`w-4 h-4 ${isOpen ? "text-violet-400" : "text-white/40"}`} />
+              <Plus className={`w-4 h-4 ${isOpen ? "text-violet-400" : "text-white/50"}`} />
             </div>
           </div>
         </button>
@@ -162,7 +163,7 @@ const FAQ = memo(function FAQ() {
   };
 
   return (
-    <section className="py-14 md:py-16 bg-[#040407]" id="faq" aria-labelledby="faq-heading">
+    <section className="py-16 md:py-24 bg-[#040407]" id="faq" aria-labelledby="faq-heading">
       <div className="max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
           className="text-center mb-8 md:mb-12"
@@ -173,7 +174,7 @@ const FAQ = memo(function FAQ() {
         >
           <h2
             id="faq-heading"
-            className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight text-white mb-4"
+            className="text-2xl md:text-3xl lg:text-4xl font-extralight tracking-[-0.03em] text-white mb-4"
           >
             De frågor jag får i varje{" "}
             <span className="font-light text-white/90">

@@ -69,6 +69,11 @@ function SolutionCard({
   // Shimmer one-shot per hover
   const [shimmer, setShimmer] = useState(false);
 
+  // Violet accent for all cards
+  const accentColor = "rgba(139,92,246,0.5)";
+  const borderColor = "rgba(139,92,246,0.2)";
+  const spotlightColor = "rgba(139,92,246,0.15)";
+
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     if (reduced) return;
     const rect = cardRef.current?.getBoundingClientRect();
@@ -97,13 +102,13 @@ function SolutionCard({
       className="rounded-2xl p-px transition-all duration-300"
       style={{
         background: hovered
-          ? "linear-gradient(135deg, rgba(139,92,246,0.5), rgba(139,92,246,0.15), rgba(139,92,246,0.4))"
+          ? `linear-gradient(135deg, ${accentColor}, ${borderColor}, ${accentColor})`
           : "rgba(255,255,255,0.06)",
       }}
     >
       <div
         ref={cardRef}
-        className="group relative rounded-[15px] bg-[#040407] p-6 md:p-8 overflow-hidden cursor-default"
+        className="group relative rounded-[15px] bg-[#040407] p-5 md:p-8 overflow-hidden cursor-default"
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -115,13 +120,13 @@ function SolutionCard({
             className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-200"
             style={{
               opacity: hovered ? 1 : 0,
-              background: `radial-gradient(200px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.15), rgba(139,92,246,0.04) 50%, transparent 70%)`,
+              background: `radial-gradient(200px circle at ${cursor.x}px ${cursor.y}px, ${spotlightColor}, rgba(139,92,246,0.04) 50%, transparent 70%)`,
             }}
           />
         )}
 
         {/* Top-right corner accent */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-violet-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-bl from-violet-500/10 to-transparent" />
 
         <div className="relative z-10">
           {/* Icon area with spotlight */}
@@ -139,11 +144,17 @@ function SolutionCard({
                   }}
                 />
               )}
-              <div className="w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+              <div
+                className="w-10 h-10 rounded-lg border flex items-center justify-center transition-colors duration-300"
+                style={{
+                  backgroundColor: "rgba(139,92,246,0.1)",
+                  borderColor: "rgba(139,92,246,0.2)",
+                }}
+              >
                 <Icon
                   className="w-4 h-4 transition-all duration-300 ease-out"
                   style={{
-                    color: hovered ? "rgb(139,92,246)" : "rgb(167,139,250)",
+                    color: hovered ? "rgb(167,139,250)" : "rgb(196,181,253)",
                     transform: hovered && !reduced ? "rotate(8deg)" : "rotate(0deg)",
                   }}
                 />
@@ -164,10 +175,28 @@ function SolutionCard({
 
           {/* Highlight pill with shimmer */}
           <div
-            className={`relative flex items-center gap-2 px-3 py-2 rounded-lg bg-violet-500/[0.08] border border-violet-500/10 w-fit mb-8 overflow-hidden${shimmer && !reduced ? " sol-shimmer-run" : ""}`}
+            className={`relative flex items-center gap-2 px-3 py-2 rounded-lg w-fit mb-8 overflow-hidden${shimmer && !reduced ? " sol-shimmer-run" : ""}`}
+            style={{
+              backgroundColor: "rgba(139,92,246,0.08)",
+              borderColor: "rgba(139,92,246,0.12)",
+              borderWidth: "1px",
+            }}
           >
-            <div className="w-1.5 h-1.5 rounded-full bg-violet-400 shadow-[0_0_6px_rgba(139,92,246,0.8)]" />
-            <p className="text-xs text-violet-300/90 font-light relative z-10">{sol.outcome}</p>
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                backgroundColor: "rgb(167,139,250)",
+                boxShadow: "0 0 6px rgba(139,92,246,0.8)",
+              }}
+            />
+            <p
+              className="text-xs font-light relative z-10"
+              style={{
+                color: "rgba(196,181,253,0.9)",
+              }}
+            >
+              {sol.outcome}
+            </p>
           </div>
 
           {/* Feature tags with stagger on hover */}
@@ -180,10 +209,10 @@ function SolutionCard({
                   reduced
                     ? undefined
                     : {
-                        transitionDelay: hovered ? `${i * 0.05}s` : "0s",
-                        transform: hovered ? "translateY(0)" : "translateY(4px)",
-                        opacity: hovered ? 1 : 0.6,
-                      }
+                      transitionDelay: hovered ? `${i * 0.05}s` : "0s",
+                      transform: hovered ? "translateY(0)" : "translateY(4px)",
+                      opacity: hovered ? 1 : 0.6,
+                    }
                 }
               >
                 {f}
@@ -195,7 +224,7 @@ function SolutionCard({
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center card-grid px-4 py-2 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover mt-4 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white/90 bg-primary-glass border border-primary hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover mt-4 group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
           >
             Diskutera er utmaning
             <svg
@@ -210,7 +239,6 @@ function SolutionCard({
               strokeLinejoin="round"
               aria-hidden="true"
               className="group-hover/link:translate-x-1 group-active/link:translate-x-2 transition-transform duration-200 shrink-0"
-              style={{ transform: "translateZ(0)" }}
             >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
@@ -233,6 +261,7 @@ export default function Solutions() {
     <section
       className="py-16 md:py-24 bg-[#040407] relative overflow-hidden"
       id="solutions"
+      aria-labelledby="solutions-heading"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-violet-600/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -247,7 +276,7 @@ export default function Solutions() {
           <p className="text-[11px] font-medium tracking-[0.2em] text-violet-400/80 uppercase mb-4">
             Lösningar
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-white mb-4">
+          <h2 id="solutions-heading" className="text-3xl md:text-4xl lg:text-5xl font-extralight tracking-[-0.03em] text-white mb-4">
             Tre typer av problem.{" "}
             <span className="text-gradient-purple">
               En person som faktiskt löser dem.
@@ -299,7 +328,16 @@ export default function Solutions() {
           </div>
           <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-white/20 transition-colors duration-500" />
 
-          <div className="relative z-10 p-6 md:p-10 text-white grid md:grid-cols-[1fr,auto] gap-8 items-start">
+          {/* Black flash overlay on hover */}
+          {!reduced && (
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-2xl z-[1] pointer-events-none opacity-0 group-hover:animate-[blackFlash_0.6s_ease-out_forwards]"
+              style={{ background: "rgba(0,0,0,0.6)" }}
+            />
+          )}
+
+          <div className="relative z-10 p-5 md:p-10 text-white grid md:grid-cols-[1fr,auto] gap-8 items-start">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center">
@@ -324,13 +362,12 @@ export default function Solutions() {
                 href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center card-grid px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 bg-violet-500/20 border border-violet-400/40 hover:bg-violet-500/30 hover:border-violet-400/60 transition-colors duration-200 interactive-hover group/link focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
               >
                 Diskutera ert projekt
                 <ArrowRight
                   aria-hidden={true}
                   className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-0.5 group-active/link:translate-x-1.5 shrink-0"
-                  style={{ transform: "translateZ(0)" }}
                 />
               </a>
             </div>

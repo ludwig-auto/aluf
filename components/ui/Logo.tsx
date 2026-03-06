@@ -14,7 +14,7 @@ export function Logo({ className = "" }: LogoProps) {
                 height={44}
                 priority
             />
-            <span className="tracking-tight text-white flex flex-col">
+            <span className="tracking-tight text-white flex flex-col whitespace-nowrap">
                 <span className="text-[13px] font-light uppercase tracking-[0.15em] opacity-80 leading-none">Automations</span>
                 <span className="text-2xl font-bold leading-none mt-0.5">Ludwig</span>
             </span>
