@@ -3,6 +3,7 @@ import "./globals.css";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ChatWidget } from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://automationsludwig.se"),
@@ -272,6 +273,7 @@ export default function RootLayout({
         <CookieBanner />
         <GoogleAnalytics />
         <SpeedInsights />
+        <ChatWidget />
       </body>
     </html>
   );
