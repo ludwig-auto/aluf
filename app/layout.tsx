@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://automationsludwig.se"),
@@ -270,6 +271,7 @@ export default function RootLayout({
         {children}
         <CookieBanner />
         <GoogleAnalytics />
+        <SpeedInsights />
       </body>
     </html>
   );
