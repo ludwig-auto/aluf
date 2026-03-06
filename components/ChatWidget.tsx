@@ -81,13 +81,13 @@ export function ChatWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-4 md:right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[70vh] bg-[#1a1625] border border-violet-500/30 rounded-2xl shadow-2xl shadow-violet-500/20 flex flex-col z-50"
+            className="fixed bottom-24 right-4 md:right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[70vh] bg-black border border-white/10 rounded-2xl shadow-2xl flex flex-col z-50"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-violet-500/20">
+            <div className="flex items-center justify-between p-4 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
-                  <MessageCircle className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 text-black" />
                 </div>
                 <div>
                   <h3 className="text-white font-semibold text-sm">AutomationsLudwig AI</h3>
@@ -96,7 +96,7 @@ export function ChatWidget() {
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 hover:bg-white/5 rounded-lg transition-colors"
                 aria-label="Stäng chat"
               >
                 <X className="w-5 h-5 text-white/70" />
@@ -113,8 +113,8 @@ export function ChatWidget() {
                   <div
                     className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
                       message.role === "user"
-                        ? "bg-violet-500 text-white"
-                        : "bg-white/10 text-white/90"
+                        ? "bg-white text-black"
+                        : "bg-white/5 text-white/90"
                     }`}
                   >
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
@@ -123,7 +123,7 @@ export function ChatWidget() {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white/10 rounded-2xl px-4 py-2.5">
+                  <div className="bg-white/5 rounded-2xl px-4 py-2.5">
                     <div className="flex gap-1">
                       <span className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                       <span className="w-2 h-2 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -136,7 +136,7 @@ export function ChatWidget() {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-violet-500/20">
+            <div className="p-4 border-t border-white/10">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -145,15 +145,15 @@ export function ChatWidget() {
                   onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                   placeholder="Skriv ditt meddelande..."
                   disabled={isLoading}
-                  className="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-violet-400 focus:bg-white/15 transition-all disabled:opacity-50"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all disabled:opacity-50"
                 />
                 <button
                   onClick={sendMessage}
                   disabled={!input.trim() || isLoading}
-                  className="p-2.5 bg-violet-500 hover:bg-violet-600 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2.5 bg-white hover:bg-white/90 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Skicka meddelande"
                 >
-                  <Send className="w-5 h-5 text-white" />
+                  <Send className="w-5 h-5 text-black" />
                 </button>
               </div>
             </div>
@@ -168,7 +168,7 @@ export function ChatWidget() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 w-14 h-14 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full shadow-lg shadow-violet-500/50 flex items-center justify-center hover:shadow-xl hover:shadow-violet-500/60 transition-all z-50"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 w-14 h-14 bg-white rounded-full shadow-lg shadow-black/20 flex items-center justify-center hover:shadow-xl hover:shadow-black/30 transition-all z-50"
         aria-label={isOpen ? "Stäng chat" : "Öppna chat"}
       >
         <AnimatePresence mode="wait">
@@ -180,7 +180,7 @@ export function ChatWidget() {
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <X className="w-6 h-6 text-white" />
+              <X className="w-6 h-6 text-black" />
             </motion.div>
           ) : (
             <motion.div
@@ -190,7 +190,7 @@ export function ChatWidget() {
               exit={{ rotate: -90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <MessageCircle className="w-6 h-6 text-white" />
+              <MessageCircle className="w-6 h-6 text-black" />
             </motion.div>
           )}
         </AnimatePresence>
